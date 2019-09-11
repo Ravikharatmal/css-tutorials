@@ -1,0 +1,199 @@
+<html>
+
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+.mydiv { //
+	background-color: lightgrey; //
+	width: 300px;
+	border: 1px solid; //
+	padding: 50px; //
+	margin: 0px;
+}
+</style>
+<script>
+	// Mills to wait between CSS value changes. Lower value means faster animation.
+	var animationSpeed = 100;
+	// Message dsiplay time in mills
+	var messageDelay = 2000;
+
+	/**
+	 * This is original styling. After every animation step, reset back to original.
+	 */
+	var resetStyle = {
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "border",
+				val : "1px solid"
+			}, {
+				attr : "border-color",
+				val : "blue"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "border",
+				val : "1px solid"
+			}, {
+				attr : "border-color",
+				val : "red"
+			} ]
+		} ]
+	};
+
+	/**
+	 * Prepare animation steps
+	 */
+	var an1 = {
+		divname : "seconddiv",
+		desc : "Change padding of second div",
+		attr : "padding",
+		suffix : "",
+		min : 0,
+		max : 50
+	};
+	var an2 = {
+		divname : "seconddiv",
+		desc : "Change margin of second div",
+		attr : "margin",
+		suffix : "",
+		min : 0,
+		max : 50
+	};
+	var an3 = {
+		divname : "seconddiv",
+		desc : "Change border of second div",
+		attr : "border",
+		suffix : " solid",
+		min : 1,
+		max : 20,
+		additional : [ {
+			divname : "seconddiv",
+			css : [ {
+				attr : "border-color",
+				val : "red"
+			} ]
+		} ]
+	};
+	var an4 = {
+		divname : "firstdiv",
+		desc : "Change width of first div",
+		attr : "width",
+		suffix : "",
+		min : 100,
+		max : 120
+	};
+	var an5 = {
+		divname : "firstdiv",
+		desc : "Change width of first div with float left on both div",
+		attr : "width",
+		suffix : "",
+		min : 100,
+		max : 120,
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "float",
+				val : "left"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "width",
+				val : "100"
+			}, {
+				attr : "float",
+				val : "left"
+			} ]
+		} ]
+	};
+	var an6 = {
+		divname : "firstdiv",
+		desc : "Change width of first div with float left on first div & float right on second div.",
+		attr : "width",
+		suffix : "",
+		min : 100,
+		max : 120,
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "float",
+				val : "left"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "width",
+				val : "100"
+			}, {
+				attr : "float",
+				val : "right"
+			} ]
+		} ]
+	};
+	var an7 = {
+		divname : "seconddiv",
+		desc : "Change margin of second div with both div of fixed width.",
+		attr : "margin",
+		suffix : "",
+		min : 0,
+		max : 50,
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "width",
+				val : "100"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "width",
+				val : "100"
+			} ]
+		} ]
+	};
+
+	var animations = [ an1, an2, an3, an4, an5, an6, an7 ];
+</script>
+<script
+	type="text/javascript"
+	src="animate.js"></script>
+</head>
+
+<body>
+
+	<div id="demodiv">
+		<div
+			id="firstdiv"
+			style="border: 1px solid; border-color: blue;">
+			FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT.
+			FIRST DIV CONTENT. FIRST DIV CONTENT.
+
+			<div
+				id="seconddiv"
+				style="border: 1px solid; border-color: red;">SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT.
+				SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT.</div>
+
+		</div>
+
+
+	</div>
+
+	<div
+		id="code"
+		style="border: 1px solid; margin: 0px; position: fixed; bottom: 5px; left: 700px; white-space: pre-wrap; width: 800px; height: 400px;">
+		<span id="codeheader"></span><span
+			id="codepaste"
+			style="margin: 0px; white-space: pre-wrap;"></span>
+	</div>
+
+	<div
+		id="message"
+		style="margin: 0px; position: fixed; bottom: 500px; left: 400px; white-space: pre-wrap; font-size: 40px;">aaa</div>
+
+
+
+</body>
+
+</html>
