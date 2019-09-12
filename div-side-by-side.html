@@ -2,6 +2,9 @@
 
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+
 <style>
 .mydiv { //
 	background-color: lightgrey; //
@@ -13,9 +16,9 @@
 </style>
 <script>
 	// Mills to wait between CSS value changes. Lower value means faster animation.
-	var animationSpeed = 100;
+	var animationSpeed = 50;
 	// Message dsiplay time in mills
-	var messageDelay = 2000;
+	var messageDelay = 500;
 
 	/**
 	 * This is original styling. After every animation step, reset back to original.
@@ -45,143 +48,326 @@
 	/**
 	 * Prepare animation steps
 	 */
-	var an1 = {
-		divname : "seconddiv",
-		desc : "Change padding of second div",
-		attr : "padding",
-		suffix : "",
-		min : 0,
-		max : 50
-	};
-	var an2 = {
-		divname : "seconddiv",
-		desc : "Change margin of second div",
-		attr : "margin",
-		suffix : "",
-		min : 0,
-		max : 50
-	};
-	var an3 = {
-		divname : "seconddiv",
-		desc : "Change border of second div",
-		attr : "border",
-		suffix : " solid",
-		min : 1,
-		max : 20,
-		additional : [ {
-			divname : "seconddiv",
-			css : [ {
-				attr : "border-color",
-				val : "red"
-			} ]
-		} ]
-	};
-	var an4 = {
-		divname : "firstdiv",
-		desc : "Change width of first div",
-		attr : "width",
-		suffix : "",
-		min : 100,
-		max : 120
-	};
-	var an5 = {
-		divname : "firstdiv",
-		desc : "Change width of first div with float left on both div",
-		attr : "width",
-		suffix : "",
-		min : 100,
-		max : 120,
-		additional : [ {
-			divname : "firstdiv",
-			css : [ {
-				attr : "float",
-				val : "left"
-			} ]
-		}, {
-			divname : "seconddiv",
-			css : [ {
+	var animations = [
+			/**
+			 * Single attribute value change
+			 */
+			{
+				divname : "seconddiv",
+				title : "PADDING",
+				desc : "Change padding of second div",
+				attr : "padding",
+				suffix : "",
+				min : 0,
+				max : 50
+			},
+			{
+				divname : "seconddiv",
+				title : "MARGIN",
+				desc : "Change margin of second div",
+				attr : "margin",
+				suffix : "",
+				min : 0,
+				max : 50
+			},
+			{
+				divname : "seconddiv",
+				title : "BORDER",
+				desc : "Change border of second div",
+				attr : "border",
+				suffix : " solid",
+				min : 1,
+				max : 20,
+				additional : [ {
+					divname : "seconddiv",
+					css : [ {
+						attr : "border-color",
+						val : "red"
+					} ]
+				} ]
+			},
+			/**
+			 * Div below div
+			 */
+			{
+				divname : "firstdiv",
+				title : "WIDTH",
+				desc : "Change width of first div & width of second div constant.",
 				attr : "width",
-				val : "100"
-			}, {
-				attr : "float",
-				val : "left"
-			} ]
-		} ]
-	};
-	var an6 = {
-		divname : "firstdiv",
-		desc : "Change width of first div with float left on first div & float right on second div.",
-		attr : "width",
-		suffix : "",
-		min : 100,
-		max : 120,
-		additional : [ {
-			divname : "firstdiv",
-			css : [ {
-				attr : "float",
-				val : "left"
-			} ]
-		}, {
-			divname : "seconddiv",
-			css : [ {
-				attr : "width",
-				val : "100"
-			}, {
-				attr : "float",
-				val : "right"
-			} ]
-		} ]
-	};
-	var an7 = {
-		divname : "seconddiv",
-		desc : "Change margin of second div with both div of fixed width.",
-		attr : "margin",
-		suffix : "",
-		min : 0,
-		max : 50,
-		additional : [ {
-			divname : "firstdiv",
-			css : [ {
-				attr : "width",
-				val : "100"
-			} ]
-		}, {
-			divname : "seconddiv",
-			css : [ {
-				attr : "width",
-				val : "100"
-			} ]
-		} ]
-	};
-	var an7 = {
-		divname : "seconddiv",
-		desc : "Change margin of second div with both div of fixed width & float left.",
-		attr : "margin",
-		suffix : "",
-		min : 0,
-		max : 50,
-		additional : [ {
-			divname : "firstdiv",
-			css : [ {
-				attr : "width",
-				val : "100"
-			}, {
-				attr : "float",
-				val : "left"
-			} ]
-		}, {
-			divname : "seconddiv",
-			css : [ {
-				attr : "width",
-				val : "100"
-			}, {
-				attr : "float",
-				val : "left"
-			} ]
-		} ]
-	};
+				suffix : "",
+				min : 100,
+				max : 120,
+				additional : [ {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					} ]
+				} ]
+			},
+			{
+				divname : "firstdiv",
+				title : "MARGIN & WIDTH",
+				desc : "Change margin of first div | both div of fixed width.",
+				attr : "margin",
+				suffix : "",
+				min : 0,
+				max : 50,
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					} ]
+				} ]
+			},
+			{
+				divname : "seconddiv",
+				title : "MARGIN & WIDTH",
+				desc : "Change margin of second div | both div of fixed width.",
+				attr : "margin",
+				suffix : "",
+				min : 0,
+				max : 50,
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					} ]
+				} ]
+			},
+			{
+				divname : "firstdiv",
+				title : "TOP, WIDTH & POSITION ABSOLUTE",
+				desc : "Change top of first div | both div = fixed width & first div position = absolute",
+				attr : "top",
+				suffix : "",
+				min : 0,
+				max : 50,
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					}, {
+						attr : "position",
+						val : "absolute"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					} ]
+				} ]
+			},
+			{
+				divname : "seconddiv",
+				title : "BOTTOM, WIDTH & POSITION ABSOLUTE",
+				desc : "Change bottom of second div | both div = fixed width & second div position = absolute",
+				attr : "bottom",
+				suffix : "",
+				min : 0,
+				max : 50,
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					}, {
+						attr : "position",
+						val : "absolute"
+					} ]
+				} ]
+			},
 
-	var animations = [ an1, an2, an3, an4, an5, an6, an7 ];
+			/**
+			 * Div side by side other div
+			 */
+
+			{
+				divname : "firstdiv",
+				title : "WIDTH & FLOAT LEFT",
+				desc : "Change width of first div | both div = float left",
+				attr : "width",
+				suffix : "",
+				min : 100,
+				max : 120,
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "float",
+						val : "left"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					}, {
+						attr : "float",
+						val : "left"
+					} ]
+				} ]
+			},
+			{
+				divname : "seconddiv",
+				title : "WIDTH & FLOAT LEFT",
+				desc : "Change width of second div | both div = float left",
+				attr : "width",
+				suffix : "",
+				min : 100,
+				max : 120,
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					}, {
+						attr : "float",
+						val : "left"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "float",
+						val : "left"
+					} ]
+				} ]
+			},
+			{
+				divname : "firstdiv",
+				title : "MARGIN & FLOAT LEFT",
+				desc : "Change margin of first div | both div = float left",
+				attr : "margin",
+				suffix : "",
+				min : 0,
+				max : 50,
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					}, {
+						attr : "float",
+						val : "left"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					}, {
+						attr : "float",
+						val : "left"
+					} ]
+				} ]
+			},
+			{
+				divname : "seconddiv",
+				title : "MARGIN & FLOAT LEFT",
+				desc : "Change margin of second div | both div = float left",
+				attr : "margin",
+				suffix : "",
+				min : 0,
+				max : 50,
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					}, {
+						attr : "float",
+						val : "left"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					}, {
+						attr : "float",
+						val : "left"
+					} ]
+				} ]
+			},
+			{
+				divname : "firstdiv",
+				title : "MARGIN, FLOAT LEFT & FLOAT RIGHT",
+				desc : "Change margin of first div | first div = float left & second div = float right",
+				attr : "margin",
+				suffix : "",
+				min : 0,
+				max : 50,
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					}, {
+						attr : "float",
+						val : "left"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					}, {
+						attr : "float",
+						val : "right"
+					} ]
+				} ]
+			},
+			{
+				divname : "seconddiv",
+				title : "MARGIN, FLOAT LEFT & FLOAT RIGHT",
+				desc : "Change margin of second div | first div = float left & second div = float right",
+				attr : "margin",
+				suffix : "",
+				min : 0,
+				max : 50,
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					}, {
+						attr : "float",
+						val : "left"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					}, {
+						attr : "float",
+						val : "right"
+					} ]
+				} ]
+			} ];
+
+	//[ an1, an2, an3, an4, an5, an6, an7, an8 ];
 </script>
 <script
 	type="text/javascript"
@@ -205,14 +391,20 @@
 	<div
 		id="code"
 		style="border: 1px solid; margin: 0px; position: fixed; bottom: 5px; left: 700px; white-space: pre-wrap; width: 800px; height: 400px;">
-		<span id="codeheader"></span><span
-			id="codepaste"
-			style="margin: 0px; white-space: pre-wrap;"></span>
+		<span id="codeheader"></span>
+		<div
+			id="codepad"
+			style="border: 1px solid; margin: 0px;"">
+			<span
+				id="codepaste"
+				style="margin: 0px; white-space: pre-wrap; font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New;"></span>
+		</div>
 	</div>
 
 	<div
 		id="message"
-		style="margin: 0px; position: fixed; bottom: 500px; left: 400px; white-space: pre-wrap; font-size: 40px;">aaa</div>
+		align="center"
+		style="bottom: 500px; white-space: pre-wrap; font-size: 40px;">aaa</div>
 
 
 

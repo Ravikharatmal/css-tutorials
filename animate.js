@@ -14,14 +14,71 @@
 	 * This method loads or refreshes code panel with latest HTML of divs in
 	 * demo.
 	 */
-	function loadCodePanel(codeheaderval, styleattr, styleval) {
+	function loadCodePanel(attrIndex, codeheaderval, styleattr, styleval) {
 		var codeString = $('#demodiv').html();
+		
+		var escapedCodeString = $("<div>").text(codeString).html();
+		
+		console.log(escapedCodeString);
+		
+		escapedCodeString = highlightCSS(escapedCodeString, styleattr, styleval, true);
+		
+		if (attrIndex && animations[attrIndex].additional) {
+			var adddiv;
+			for (adddiv of animations[attrIndex].additional){
+				console.log("Additional div = " + adddiv.divname);
+				var addcss;
+				for (addcss of adddiv.css){
+					console.log("Additional css = " + addcss.attr + " = " + addcss.val);
+
+					escapedCodeString = highlightCSS(escapedCodeString, addcss.attr, addcss.val);
+				}
+			}
+		}
+	
+		escapedCodeString = highlightCode(escapedCodeString);
 
 		if(codeheaderval){
 			codeheaderval = codeheaderval + "<br/>";
 		}
-		$('#codeheader').html(codeheaderval);
-		$('#codepaste').text(codeString);
+// $('#codeheader').html(codeheaderval);
+		$('#codepaste').html(escapedCodeString);
+	}
+	
+	/**
+	 * This method loads or refreshes code panel with latest HTML of divs in
+	 * demo.
+	 */
+	function highlightCode(escapedCodeString) {
+	
+		
+		var codewords = ['div','id','style'];
+		
+		for(codeword of codewords){
+		
+			var regex = new RegExp('\\b' + codeword + '\\b', "g");
+		
+			escapedCodeString = escapedCodeString.replace(regex, "<strong><font color='blue' size='3'>"+codeword+"</font></strong>");
+		
+		}
+		escapedCodeString = escapedCodeString.replace(/&lt;/g, "<strong><font color='blue' size='3'>"+"&lt;"+"</font></strong>");
+		escapedCodeString = escapedCodeString.replace(/&gt;/g, "<strong><font color='blue' size='3'>"+"&gt;"+"</font></strong>");
+
+		
+		return escapedCodeString;
+		
+	}
+	
+	function highlightCSS(escapedCodeString, styleattr, styleval, animatingCss){
+		
+		var color = "crimson";
+		if(animatingCss){
+			color = "red";
+		}
+		
+		var cssconcat = styleattr+": " +styleval ;
+		escapedCodeString = escapedCodeString.replace( new RegExp('\\b' + cssconcat + '\\b', "g"),"<strong><font color='"+color+"' size='4'>"+cssconcat+"</font></strong>");
+		return escapedCodeString; 
 	}
 
 	/**
@@ -35,6 +92,7 @@
 		var codeheaderval = "<ul>Change: <br/><ul><li>"+animations[attrIndex].divname+": "+styleattr + " = " + styleval  +"</li>";
 				
 		$('#' + animations[attrIndex].divname).css(styleattr, styleval);
+		
 		if (animations[attrIndex].additional) {
 			var adddiv;
 			for (adddiv of animations[attrIndex].additional){
@@ -54,7 +112,7 @@
 		
 		codeheaderval = codeheaderval + "</ul>Code:</ul>"
 		
-		loadCodePanel(codeheaderval, styleattr, styleval);
+		loadCodePanel(attrIndex,codeheaderval, styleattr, styleval);
 	}
 
 	/**
@@ -65,8 +123,9 @@
 		if (animations[attrIndex]) {
 			// Display description message for animation about to start.
 			$('#message').show();
-			console.log("Message " + animations[attrIndex].desc);
-			$('#message').text(animations[attrIndex].desc);
+			console.log("Message " + animations[attrIndex].title + " - " + animations[attrIndex].desc);
+			$('#codeheader').html("<font color='green' size='4'><br/><strong>Attribute(s): </strong>"+animations[attrIndex].title+"<br/><strong>Change:</strong> "+animations[attrIndex].desc+"</font><br/>");
+			$('#message').text(animations[attrIndex].title);
 			
 			// Keep showing message for some time & then start animation.
 			setTimeout(function() {
