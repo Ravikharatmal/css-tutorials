@@ -1,24 +1,29 @@
 <html>
 
 <head>
+<meta
+	name="viewport"
+	content="width=device-width, initial-scale=1.0">
+<meta
+	name="description"
+	content="${classSimpleName} Guide | Usage, Javadoc, Examples for all methods">
+<link
+	rel="icon"
+	href="${rootPathForPackage}../../../../itsallbinary_ICON-1.gif"
+	sizes="32x32">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+	async
+	src="https://www.googletagmanager.com/gtag/js?id=UA-111395165-1"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+<title>CSS in Action | Watch & learn actual CSS live</title>
 
-
-<style>
-.mydiv { //
-	background-color: lightgrey; //
-	width: 300px;
-	border: 1px solid; //
-	padding: 50px; //
-	margin: 0px;
-}
-</style>
 <script>
 	// Mills to wait between CSS value changes. Lower value means faster animation.
 	var animationSpeed = 50;
 	// Message dsiplay time in mills
-	var messageDelay = 500;
+	var messageDelay = 1000;
 
 	/**
 	 * This is original styling. After every animation step, reset back to original.
@@ -379,25 +384,53 @@
 	<div id="demodiv">
 		<div
 			id="firstdiv"
-			style="border: 1px solid; border-color: blue;">FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST
-			DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT.</div>
+			style="border: 1px solid; border-color: blue;">FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV
+			CONTENT.</div>
 
 		<div
 			id="seconddiv"
-			style="border: 1px solid; border-color: red;">SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT.
-			SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT.</div>
+			style="border: 1px solid; border-color: red;">SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT.
+			SECOND DIV CONTENT.</div>
 	</div>
 
 	<div
 		id="code"
-		style="border: 1px solid; margin: 0px; position: fixed; bottom: 5px; left: 700px; white-space: pre-wrap; width: 800px; height: 400px;">
-		<span id="codeheader"></span>
-		<div
-			id="codepad"
-			style="border: 1px solid; margin: 0px;"">
-			<span
-				id="codepaste"
-				style="margin: 0px; white-space: pre-wrap; font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New;"></span>
+		style="border: 1px solid; border-radius: 10px; padding: 5px; margin: 0px; position: absolute; display: inline-block; bottom: 5px; right: 5px; width: 800px; height: 400px; box-shadow: 5px 10px 8px 8px #888888;">
+		<div style="margin: 0px; padding: 0px; float: left;">
+			<h2 style="font-size: 25px; margin: 0px; color: darkblue; display: inline; float: left; position: absolute; top: 5; left: 5">CSS in Action - By itsallbinary.com</h2>
+
+		</div>
+		<div style="margin: 0px; padding: 0px;">
+			<a
+				href="http://itsallbinary.com/"
+				target="_blank"><img
+				src="http://itsallbinary.com/wp-content/uploads/2017/03/final_itsallbinary.gif"
+				alt="Its All Binary"
+				height="15%"
+				width="15%"
+				style="margin: 0px; float: right;"> </a>
+
+		</div>
+		<div style="margin: 0px; margin-top: 10px; padding: 0px;">
+			<div
+				id="codeheader"
+				style="margin: 0px; margin-top: 20px; padding: 0px;"></div>
+			<div style="margin: 0px; margin-top: 20px; padding: 0px;">
+				<input
+					id="progressbar"
+					type="range"
+					min="1"
+					max="100"
+					value="50"
+					style="width: 100%;" />
+			</div>
+			<div
+				id="codepad"
+				style="border: 1px solid; margin: 0px; margin-top: 30px; padding: 0px;">
+				<span
+					id="codepaste"
+					style="margin: 0px; padding: 0px; white-space: pre-wrap; font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New;"></span>
+			</div>
 		</div>
 	</div>
 

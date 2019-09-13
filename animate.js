@@ -19,7 +19,7 @@
 		
 		var escapedCodeString = $("<div>").text(codeString).html();
 		
-		console.log(escapedCodeString);
+		// console.log(escapedCodeString);
 		
 		escapedCodeString = highlightCSS(escapedCodeString, styleattr, styleval, true);
 		
@@ -46,8 +46,7 @@
 	}
 	
 	/**
-	 * This method loads or refreshes code panel with latest HTML of divs in
-	 * demo.
+	 * This method highlights code syntax keywords to make it look like code.
 	 */
 	function highlightCode(escapedCodeString) {
 	
@@ -69,6 +68,10 @@
 		
 	}
 	
+	/**
+	 * This method highlights CSS class & values which are to be shown to user
+	 * as part of this demo.
+	 */
 	function highlightCSS(escapedCodeString, styleattr, styleval, animatingCss){
 		
 		var color = "crimson";
@@ -114,6 +117,12 @@
 		
 		loadCodePanel(attrIndex,codeheaderval, styleattr, styleval);
 	}
+	
+	function animationStepProgressPercentage(attrIndex){
+		var perc = ((attrIndex + 1)/animations.length)*100;
+		console.log("Percentage = " + perc);
+		return perc;
+	}
 
 	/**
 	 * Main animation method.
@@ -126,6 +135,8 @@
 			console.log("Message " + animations[attrIndex].title + " - " + animations[attrIndex].desc);
 			$('#codeheader').html("<font color='green' size='4'><br/><strong>Attribute(s): </strong>"+animations[attrIndex].title+"<br/><strong>Change:</strong> "+animations[attrIndex].desc+"</font><br/>");
 			$('#message').text(animations[attrIndex].title);
+			
+			$('#progressbar').val(animationStepProgressPercentage(attrIndex));
 			
 			// Keep showing message for some time & then start animation.
 			setTimeout(function() {
