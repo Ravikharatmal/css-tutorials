@@ -21,9 +21,9 @@
 
 <script>
 	// Mills to wait between CSS value changes. Lower value means faster animation.
-	var animationSpeed = 100;
+	var animationSpeed = 50;
 	// Message dsiplay time in mills
-	var messageDelay = 2000;
+	var messageDelay = 1000;
 
 	/**
 	 * This is original styling. After every animation step, reset back to original.
@@ -51,125 +51,129 @@
 	};
 
 	/**
-	 * Prepare animation steps
+	 * Selected list of animations.
 	 */
-	var an1 = {
-		divname : "seconddiv",
-		title : "PADDING",
-		desc : "Change padding of second div",
-		attr : "padding",
-		suffix : "",
-		min : 0,
-		max : 50
-	};
-	var an2 = {
-		divname : "seconddiv",
-		title : "MARGIN",
-		desc : "Change margin of second div",
-		attr : "margin",
-		suffix : "",
-		min : 0,
-		max : 50
-	};
-	var an3 = {
-		divname : "seconddiv",
-		title : "BORDER",
-		desc : "Change border of second div",
-		attr : "border",
-		suffix : " solid",
-		min : 1,
-		max : 20,
-		additional : [ {
-			divname : "seconddiv",
-			css : [ {
-				attr : "border-color",
-				val : "red"
-			} ]
-		} ]
-	};
-	var an4 = {
-		divname : "firstdiv",
-		title : "WIDTH",
-		desc : "Change width of first div",
-		attr : "width",
-		suffix : "",
-		min : 100,
-		max : 120
-	};
-	var an5 = {
-		divname : "firstdiv",
-		title : "WIDTH & FLOAT LEFT",
-		desc : "Change width of first div with float left on both div",
-		attr : "width",
-		suffix : "",
-		min : 100,
-		max : 120,
-		additional : [ {
-			divname : "firstdiv",
-			css : [ {
-				attr : "float",
-				val : "left"
-			} ]
-		}, {
-			divname : "seconddiv",
-			css : [ {
-				attr : "width",
-				val : "100"
-			}, {
-				attr : "float",
-				val : "left"
-			} ]
-		} ]
-	};
-	var an6 = {
-		divname : "firstdiv",
-		title : "WIDTH, FLOAT LEFT & FLOAT RIGHT",
-		desc : "Change width of first div with float left on first div & float right on second div.",
-		attr : "width",
-		suffix : "",
-		min : 100,
-		max : 120,
-		additional : [ {
-			divname : "firstdiv",
-			css : [ {
-				attr : "float",
-				val : "left"
-			} ]
-		}, {
-			divname : "seconddiv",
-			css : [ {
-				attr : "width",
-				val : "100"
-			}, {
-				attr : "float",
-				val : "right"
-			} ]
-		} ]
-	};
-	var an7 = {
-		divname : "seconddiv",
-		title : "WIDTH & MARGIN",
-		desc : "Change margin of second div with both div of fixed width.",
-		attr : "margin",
-		suffix : "",
-		min : 0,
-		max : 50,
-		additional : [ {
-			divname : "firstdiv",
-			css : [ {
-				attr : "width",
-				val : "100"
-			} ]
-		}, {
-			divname : "seconddiv",
-			css : [ {
-				attr : "width",
-				val : "100"
-			} ]
-		} ]
-	};
+	var animations;
 
-	var animations = [ an1, an2, an3, an4, an5, an6, an7 ];
+	/**
+	 * Prepare animation steps repository.
+	 */
+	var animations_repo = [
+			{
+				divname : "seconddiv",
+				title : "PADDING",
+				desc : "Change padding of second div",
+				attr : "padding",
+				suffix : "",
+				min : 0,
+				max : 50
+			},
+			{
+				divname : "seconddiv",
+				title : "MARGIN",
+				desc : "Change margin of second div",
+				attr : "margin",
+				suffix : "",
+				min : 0,
+				max : 50
+			},
+			{
+				divname : "seconddiv",
+				title : "BORDER",
+				desc : "Change border of second div",
+				attr : "border",
+				suffix : " solid",
+				min : 1,
+				max : 20,
+				additional : [ {
+					divname : "seconddiv",
+					css : [ {
+						attr : "border-color",
+						val : "red"
+					} ]
+				} ]
+			},
+			{
+				divname : "firstdiv",
+				title : "WIDTH",
+				desc : "Change width of first div",
+				attr : "width",
+				suffix : "",
+				min : 100,
+				max : 120
+			},
+			{
+				divname : "firstdiv",
+				title : "WIDTH & FLOAT LEFT",
+				desc : "Change width of first div with float left on both div",
+				attr : "width",
+				suffix : "",
+				min : 100,
+				max : 120,
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "float",
+						val : "left"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100"
+					}, {
+						attr : "float",
+						val : "left"
+					} ]
+				} ]
+			},
+			{
+				divname : "firstdiv",
+				title : "WIDTH, FLOAT LEFT & FLOAT RIGHT",
+				desc : "Change width of first div with float left on first div & float right on second div.",
+				attr : "width",
+				suffix : "",
+				min : 100,
+				max : 120,
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "float",
+						val : "left"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100"
+					}, {
+						attr : "float",
+						val : "right"
+					} ]
+				} ]
+			},
+			{
+				divname : "seconddiv",
+				title : "WIDTH & MARGIN",
+				desc : "Change margin of second div with both div of fixed width.",
+				attr : "margin",
+				suffix : "",
+				min : 0,
+				max : 50,
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "width",
+						val : "100"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100"
+					} ]
+				} ]
+			} ];
 </script>
 <script
 	type="text/javascript"
@@ -213,10 +217,11 @@
 
 		</div>
 		<div style="margin: 0px; margin-top: 10px; padding: 0px;">
+
 			<div
 				id="codeheader"
-				style="margin: 0px; margin-top: 20px; padding: 0px;"></div>
-			<div style="margin: 0px; margin-top: 20px; padding: 0px;">
+				style="margin: 0px; margin-top: 20px; padding: 0px; height: 60px;"></div>
+			<!-- <div style="margin: 0px; margin-top: 20px; padding: 0px;">
 				<input
 					id="progressbar"
 					type="range"
@@ -224,13 +229,16 @@
 					max="100"
 					value="50"
 					style="width: 100%;" />
-			</div>
+			</div> -->
+			<div
+				id="sidebar"
+				style="border: 1px solid; margin-top: 5px; line-height: 1.6; padding-left: 5px; width: 190px; height: 300px; float: left; overflow: auto;"></div>
 			<div
 				id="codepad"
-				style="border: 1px solid; margin: 0px; margin-top: 30px; padding: 0px;">
+				style="border: 1px solid; margin: 0px; margin-left: 200px; margin-top: 5px; padding: 10px; height: 300px;">
 				<span
 					id="codepaste"
-					style="margin: 0px; padding: 0px; white-space: pre-wrap; font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New;"></span>
+					style="margin: 0px; padding: 0px; white-space: pre-wrap; font-size: 15px; font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New;"></span>
 			</div>
 		</div>
 	</div>

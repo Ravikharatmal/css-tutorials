@@ -7,7 +7,36 @@
 		// First load panel to show HTML code in UI.
 		loadCodePanel();
 		// Start animation from 0th element in animations array.
-		animate(0);
+		// animate(0);
+		
+		// Load list of animations
+		$('#sidebar').append('<a class="sidebarlink" ind="'+-1+'" href="#'+'All'+'">'+'All Attributes'+'</a><br/>');
+		for(var i=0; i< animations_repo.length; i++){
+			var anim = animations_repo[i];
+			$('#sidebar').append('<a class="sidebarlink" style="color: blue;" ind="'+i+'" href="#'+anim.title+'">'+anim.title+'</a><br/>');
+		}
+		
+		$('.sidebarlink').hover(function(event){
+			$( this ).css('background-color','yellow');
+			  
+		},function(event){
+			$( this ).css('background-color','white');
+			  
+		});
+		
+		$('.sidebarlink').click(function(event){
+			var ind = $(this).attr('ind');
+			console.log(ind);
+			if(ind == -1){
+				animations = animations_repo;
+			}else{
+			
+			  animations = [animations_repo[ind]];
+			}
+			  animate(0);
+			  
+		}); 
+		
 	});
 
 	/**
@@ -50,18 +79,23 @@
 	 */
 	function highlightCode(escapedCodeString) {
 	
+		var codePrefix = "<strong><font color='blue' size='3'>";
+		var codeSuffix = "</font></strong>";
 		
-		var codewords = ['div','id','style'];
+		var codewords = ['div'];
 		
 		for(codeword of codewords){
 		
 			var regex = new RegExp('\\b' + codeword + '\\b', "g");
 		
-			escapedCodeString = escapedCodeString.replace(regex, "<strong><font color='blue' size='3'>"+codeword+"</font></strong>");
+			escapedCodeString = escapedCodeString.replace(regex, codePrefix+codeword+"</font></strong>");
 		
 		}
-		escapedCodeString = escapedCodeString.replace(/&lt;/g, "<strong><font color='blue' size='3'>"+"&lt;"+"</font></strong>");
-		escapedCodeString = escapedCodeString.replace(/&gt;/g, "<strong><font color='blue' size='3'>"+"&gt;"+"</font></strong>");
+		escapedCodeString = escapedCodeString.replace(/&lt;/g, codePrefix+"&lt;"+codeSuffix);
+		escapedCodeString = escapedCodeString.replace(/&gt;/g, codePrefix+"&gt;"+codeSuffix);
+		escapedCodeString = escapedCodeString.replace(/"/g, codePrefix+'"'+codeSuffix);
+		escapedCodeString = escapedCodeString.replace(/id\=/g,codePrefix+'id\='+codeSuffix);
+		escapedCodeString = escapedCodeString.replace(/style\=/g, codePrefix+'style\='+codeSuffix);
 
 		
 		return escapedCodeString;
@@ -136,7 +170,8 @@
 			$('#codeheader').html("<font color='green' size='4'><br/><strong>Attribute(s): </strong>"+animations[attrIndex].title+"<br/><strong>Change:</strong> "+animations[attrIndex].desc+"</font><br/>");
 			$('#message').text(animations[attrIndex].title);
 			
-			$('#progressbar').val(animationStepProgressPercentage(attrIndex));
+			// $('#progressbar').val(animationStepProgressPercentage(attrIndex));
+
 			
 			// Keep showing message for some time & then start animation.
 			setTimeout(function() {

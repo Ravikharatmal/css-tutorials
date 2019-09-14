@@ -51,9 +51,14 @@
 	};
 
 	/**
-	 * Prepare animation steps
+	 * Selected list of animations.
 	 */
-	var animations = [
+	var animations;
+
+	/**
+	 * Prepare animation steps repository.
+	 */
+	var animations_repo = [
 			/**
 			 * Single attribute value change
 			 */
@@ -86,6 +91,25 @@
 				additional : [ {
 					divname : "seconddiv",
 					css : [ {
+						attr : "border-color",
+						val : "red"
+					} ]
+				} ]
+			},
+			{
+				divname : "seconddiv",
+				title : "OUTLINE",
+				desc : "Change outline of second div",
+				attr : "outline",
+				suffix : " solid",
+				min : 1,
+				max : 20,
+				additional : [ {
+					divname : "seconddiv",
+					css : [ {
+						attr : "border",
+						val : "5px solid"
+					}, {
 						attr : "border-color",
 						val : "red"
 					} ]
@@ -412,10 +436,11 @@
 
 		</div>
 		<div style="margin: 0px; margin-top: 10px; padding: 0px;">
+
 			<div
 				id="codeheader"
-				style="margin: 0px; margin-top: 20px; padding: 0px;"></div>
-			<div style="margin: 0px; margin-top: 20px; padding: 0px;">
+				style="margin: 0px; margin-top: 20px; padding: 0px; height: 60px;"></div>
+			<!-- <div style="margin: 0px; margin-top: 20px; padding: 0px;">
 				<input
 					id="progressbar"
 					type="range"
@@ -423,13 +448,16 @@
 					max="100"
 					value="50"
 					style="width: 100%;" />
-			</div>
+			</div> -->
+			<div
+				id="sidebar"
+				style="border: 1px solid; margin-top: 5px; line-height: 1.6; padding-left: 5px; width: 190px; height: 300px; float: left; overflow: auto;"></div>
 			<div
 				id="codepad"
-				style="border: 1px solid; margin: 0px; margin-top: 30px; padding: 0px;">
+				style="border: 1px solid; margin: 0px; margin-left: 200px; margin-top: 5px; padding: 10px; height: 300px;">
 				<span
 					id="codepaste"
-					style="margin: 0px; padding: 0px; white-space: pre-wrap; font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New;"></span>
+					style="margin: 0px; padding: 0px; white-space: pre-wrap; font-size: 15px; font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New;"></span>
 			</div>
 		</div>
 	</div>
