@@ -20,11 +20,6 @@
 <title>CSS in Action | Watch & learn actual CSS live</title>
 
 <script>
-	// Mills to wait between CSS value changes. Lower value means faster animation.
-	var animationSpeed = 50;
-	// Message dsiplay time in mills
-	var messageDelay = 1000;
-
 	/**
 	 * This is original styling. After every animation step, reset back to original.
 	 */
@@ -33,7 +28,7 @@
 			divname : "firstdiv",
 			css : [ {
 				attr : "border",
-				val : "1px solid"
+				val : "2px solid"
 			}, {
 				attr : "border-color",
 				val : "blue"
@@ -42,7 +37,7 @@
 			divname : "seconddiv",
 			css : [ {
 				attr : "border",
-				val : "1px solid"
+				val : "2px solid"
 			}, {
 				attr : "border-color",
 				val : "red"
@@ -64,27 +59,49 @@
 			 */
 			{
 				divname : "seconddiv",
+				id : "padding",
 				title : "PADDING",
 				desc : "Change padding of second div",
 				attr : "padding",
+				sideSpecific : true,
 				suffix : "",
 				min : 0,
 				max : 50
 			},
 			{
 				divname : "seconddiv",
+				id : "margin",
 				title : "MARGIN",
 				desc : "Change margin of second div",
 				attr : "margin",
+				sideSpecific : true,
 				suffix : "",
 				min : 0,
 				max : 50
 			},
 			{
 				divname : "seconddiv",
-				title : "BORDER",
-				desc : "Change border of second div",
+				id : "margin_auto",
+				title : "MARGIN (auto)",
+				desc : "Change margin of second div to auto",
+				attr : "margin",
+				suffix : "",
+				values : [ 'auto' ],
+				additional : [ {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					} ]
+				} ]
+			},
+			{
+				divname : "seconddiv",
+				id : "border_size",
+				title : "BORDER (size)",
+				desc : "Change border size of second div",
 				attr : "border",
+				sideSpecific : true,
 				suffix : " solid",
 				min : 1,
 				max : 20,
@@ -98,6 +115,25 @@
 			},
 			{
 				divname : "seconddiv",
+				id : "border_style",
+				title : "BORDER (style)",
+				desc : "Change border style of second div",
+				attr : "border",
+				suffix : " solid",
+				values : [ '10px solid', '10px dotted', '10px dashed',
+						'10px double', '20px groove', '20px ridge',
+						'20px inset', '20px outset', '20px none', '20px hidden' ],
+				additional : [ {
+					divname : "seconddiv",
+					css : [ {
+						attr : "border-color",
+						val : "red"
+					} ]
+				} ]
+			},
+			{
+				divname : "seconddiv",
+				id : "outline",
 				title : "OUTLINE",
 				desc : "Change outline of second div",
 				attr : "outline",
@@ -120,6 +156,7 @@
 			 */
 			{
 				divname : "firstdiv",
+				id : "width",
 				title : "WIDTH",
 				desc : "Change width of first div & width of second div constant.",
 				attr : "width",
@@ -136,6 +173,82 @@
 			},
 			{
 				divname : "firstdiv",
+				id : "float",
+				title : "FLOAT",
+				desc : "Change float values of first div | Both div fixed width",
+				attr : "float",
+				suffix : "",
+				values : [ 'left', 'right', 'none', 'inherit' ],
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "width",
+						val : "300px"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					} ]
+				} ]
+			},
+			{
+				divname : "firstdiv",
+				id : "overflow",
+				title : "OVERFLOW",
+				desc : "Change overflow values of first div | Both div fixed width",
+				attr : "overflow",
+				suffix : "",
+				values : [ 'visible', 'hidden', 'scroll', 'auto' ],
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					}, {
+						attr : "height",
+						val : "100px"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					}, {
+						attr : "margin-top",
+						val : "100px"
+					} ]
+				} ]
+			},
+			{
+				divname : "seconddiv",
+				id : "display",
+				title : "DISPLAY",
+				desc : "Change display values of second div | Both div fixed width",
+				attr : "display",
+				suffix : "",
+				values : [ 'block', 'inline', 'none' ],
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					}, {
+						attr : "display",
+						val : "inline"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					} ]
+				} ]
+			},
+			{
+				divname : "firstdiv",
+				id : "margin_width_1",
 				title : "MARGIN & WIDTH",
 				desc : "Change margin of first div | both div of fixed width.",
 				attr : "margin",
@@ -158,6 +271,7 @@
 			},
 			{
 				divname : "seconddiv",
+				id : "margin_width_2",
 				title : "MARGIN & WIDTH",
 				desc : "Change margin of second div | both div of fixed width.",
 				attr : "margin",
@@ -180,6 +294,7 @@
 			},
 			{
 				divname : "firstdiv",
+				id : "top_width_position_absolute",
 				title : "TOP, WIDTH & POSITION ABSOLUTE",
 				desc : "Change top of first div | both div = fixed width & first div position = absolute",
 				attr : "top",
@@ -205,6 +320,7 @@
 			},
 			{
 				divname : "seconddiv",
+				id : "bottom_width_position_absolute",
 				title : "BOTTOM, WIDTH & POSITION ABSOLUTE",
 				desc : "Change bottom of second div | both div = fixed width & second div position = absolute",
 				attr : "bottom",
@@ -235,6 +351,7 @@
 
 			{
 				divname : "firstdiv",
+				id : "width_float_left_1",
 				title : "WIDTH & FLOAT LEFT",
 				desc : "Change width of first div | both div = float left",
 				attr : "width",
@@ -260,6 +377,7 @@
 			},
 			{
 				divname : "seconddiv",
+				id : "width_float_left_2",
 				title : "WIDTH & FLOAT LEFT",
 				desc : "Change width of second div | both div = float left",
 				attr : "width",
@@ -285,6 +403,7 @@
 			},
 			{
 				divname : "firstdiv",
+				id : "margin_float_left_1",
 				title : "MARGIN & FLOAT LEFT",
 				desc : "Change margin of first div | both div = float left",
 				attr : "margin",
@@ -313,6 +432,7 @@
 			},
 			{
 				divname : "seconddiv",
+				id : "margin_float_left_2",
 				title : "MARGIN & FLOAT LEFT",
 				desc : "Change margin of second div | both div = float left",
 				attr : "margin",
@@ -341,6 +461,7 @@
 			},
 			{
 				divname : "firstdiv",
+				id : "margin_float_left_right_1",
 				title : "MARGIN, FLOAT LEFT & FLOAT RIGHT",
 				desc : "Change margin of first div | first div = float left & second div = float right",
 				attr : "margin",
@@ -369,6 +490,7 @@
 			},
 			{
 				divname : "seconddiv",
+				id : "margin_float_left_right_2",
 				title : "MARGIN, FLOAT LEFT & FLOAT RIGHT",
 				desc : "Change margin of second div | first div = float left & second div = float right",
 				attr : "margin",
@@ -405,23 +527,17 @@
 
 <body>
 
-	<div id="demodiv">
-		<div
-			id="firstdiv"
-			style="border: 1px solid; border-color: blue;">FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV CONTENT. FIRST DIV
-			CONTENT.</div>
-
-		<div
-			id="seconddiv"
-			style="border: 1px solid; border-color: red;">SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT. SECOND DIV CONTENT.
-			SECOND DIV CONTENT.</div>
-	</div>
+	<div id="demodiv"></div>
 
 	<div
 		id="code"
 		style="border: 1px solid; border-radius: 10px; padding: 5px; margin: 0px; position: absolute; display: inline-block; bottom: 5px; right: 5px; width: 800px; height: 400px; box-shadow: 5px 10px 8px 8px #888888;">
 		<div style="margin: 0px; padding: 0px; float: left;">
-			<h2 style="font-size: 25px; margin: 0px; color: darkblue; display: inline; float: left; position: absolute; top: 5; left: 5">CSS in Action - By itsallbinary.com</h2>
+			<h2 style="font-size: 25px; margin: 0px; color: darkblue; display: inline; float: left; position: absolute; top: 5; left: 5">
+				CSS in Action - By <a
+					href="http://itsallbinary.com/"
+					target="_blank">itsallbinary.com</a>
+			</h2>
 
 		</div>
 		<div style="margin: 0px; padding: 0px;">
@@ -440,6 +556,13 @@
 			<div
 				id="codeheader"
 				style="margin: 0px; margin-top: 20px; padding: 0px; height: 60px;"></div>
+			<select
+				id="divSelection"
+				onchange="setDemoCodeAsPerSelection()"
+				style="background-color: PaleTurquoise; cursor: pointer; float: right; padding: 4px; border: none; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.19);">
+				<option value="side-side">Two separate divs</option>
+				<option value="inside">div inside div</option>
+			</select>
 			<!-- <div style="margin: 0px; margin-top: 20px; padding: 0px;">
 				<input
 					id="progressbar"
@@ -451,13 +574,15 @@
 			</div> -->
 			<div
 				id="sidebar"
-				style="border: 1px solid; margin-top: 5px; line-height: 1.6; padding-left: 5px; width: 190px; height: 300px; float: left; overflow: auto;"></div>
+				style="border: 1px solid; margin-top: 10px; padding-left: 5px; width: 190px; height: 300px; float: left; overflow: auto; font-family: 'Lato', sans-serif;">
+				<span style=""><strong>Select CSS Attribute to see it in action:</strong><br /> </span>
+			</div>
 			<div
 				id="codepad"
-				style="border: 1px solid; margin: 0px; margin-left: 200px; margin-top: 5px; padding: 10px; height: 300px;">
+				style="border: 1px solid; margin: 0px; margin-left: 200px; margin-top: 10px; padding: 10px; height: 300px;">
 				<span
 					id="codepaste"
-					style="margin: 0px; padding: 0px; white-space: pre-wrap; font-size: 15px; font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New;"></span>
+					style="margin: 0px; padding: 0px; white-space: pre-wrap; font-size: 14px; font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New;"></span>
 			</div>
 		</div>
 	</div>
@@ -465,8 +590,12 @@
 	<div
 		id="message"
 		align="center"
-		style="bottom: 500px; white-space: pre-wrap; font-size: 40px;">aaa</div>
+		style="position: absolute; top: 200px; margin-left: 30%; border-radius: 10px; padding: 0% 10% 0% 10%; background-color: PowderBlue; display: inline-block; white-space: pre-wrap; font-size: 40px; font-family: 'Lato', sans-serif;">aaa</div>
 
+	<div
+		id="cssValueMessage"
+		align="center"
+		style="position: absolute; top: 100px; margin-left: 30%; border-radius: 10px; padding: 0% 10% 0% 10%; background-color: PowderBlue; display: inline-block; white-space: pre-wrap; font-size: 20px; font-family: 'Lato', sans-serif;">aaa</div>
 
 
 </body>
