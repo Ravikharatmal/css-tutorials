@@ -1,0 +1,439 @@
+<html>
+
+<head>
+<meta
+	name="viewport"
+	content="width=device-width, initial-scale=1.0">
+<meta
+	name="description"
+	content="${classSimpleName} Guide | Usage, Javadoc, Examples for all methods">
+<link
+	rel="icon"
+	href="${rootPathForPackage}../../../../itsallbinary_ICON-1.gif"
+	sizes="32x32">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+	async
+	src="https://www.googletagmanager.com/gtag/js?id=UA-111395165-1"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<title>CSS in Action | Watch & learn actual CSS live</title>
+
+<script>
+
+//Mills to wait betwen CSS values animation.
+var animationSpeedForValues = 5000;
+
+	/**
+	 * This is original styling. After every animation step, reset back to original.
+	 */
+	var resetStyle = {
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "border",
+				val : "2px solid"
+			}, {
+				attr : "border-color",
+				val : "blue"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "border",
+				val : "2px solid"
+			}, {
+				attr : "border-color",
+				val : "red"
+			} ]
+		} ]
+	};
+
+	/**
+	 * Selected list of animations.
+	 */
+	var animations;
+
+	/**
+	 * Prepare animation steps repository.
+	 */
+	var animations_repo = [ {
+		divname : "firstdiv",
+		id : "width_float_left_right",
+		title : "Div stick to left & right",
+		desc : "One div on left of screen & one on right.",
+		attr : "float",
+		suffix : "",
+		values : [ 'left' ],
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			}, {
+				attr : "float",
+				val : "right"
+			} ]
+		} ]
+	},
+	{
+		divname : "firstdiv",
+		id : "margin_width_1",
+		title : "MARGIN & WIDTH",
+		desc : "Change margin of first div | both div of fixed width.",
+		attr : "margin",
+		suffix : "",
+		min : 0,
+		max : 50,
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			} ]
+		} ]
+	},
+	{
+		divname : "seconddiv",
+		id : "margin_width_2",
+		title : "MARGIN & WIDTH",
+		desc : "Change margin of second div | both div of fixed width.",
+		attr : "margin",
+		suffix : "",
+		min : 0,
+		max : 50,
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			} ]
+		} ]
+	},
+	{
+		divname : "firstdiv",
+		id : "top_width_position_absolute",
+		title : "TOP, WIDTH & POSITION ABSOLUTE",
+		desc : "Change top of first div | both div = fixed width & first div position = absolute",
+		attr : "top",
+		suffix : "",
+		min : 0,
+		max : 50,
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			}, {
+				attr : "position",
+				val : "absolute"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			} ]
+		} ]
+	},
+	{
+		divname : "seconddiv",
+		id : "bottom_width_position_absolute",
+		title : "BOTTOM, WIDTH & POSITION ABSOLUTE",
+		desc : "Change bottom of second div | both div = fixed width & second div position = absolute",
+		attr : "bottom",
+		suffix : "",
+		min : 0,
+		max : 50,
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			}, {
+				attr : "position",
+				val : "absolute"
+			} ]
+		} ]
+	},
+
+	/**
+	 * Div side by side other div
+	 */
+
+	{
+		divname : "firstdiv",
+		id : "width_float_left_1",
+		title : "WIDTH & FLOAT LEFT",
+		desc : "Change width of first div | both div = float left",
+		attr : "width",
+		suffix : "",
+		min : 100,
+		max : 120,
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "float",
+				val : "left"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			}, {
+				attr : "float",
+				val : "left"
+			} ]
+		} ]
+	},
+	{
+		divname : "seconddiv",
+		id : "width_float_left_2",
+		title : "WIDTH & FLOAT LEFT",
+		desc : "Change width of second div | both div = float left",
+		attr : "width",
+		suffix : "",
+		min : 100,
+		max : 120,
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			}, {
+				attr : "float",
+				val : "left"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "float",
+				val : "left"
+			} ]
+		} ]
+	},
+	{
+		divname : "firstdiv",
+		id : "margin_float_left_1",
+		title : "MARGIN & FLOAT LEFT",
+		desc : "Change margin of first div | both div = float left",
+		attr : "margin",
+		suffix : "",
+		min : 0,
+		max : 50,
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			}, {
+				attr : "float",
+				val : "left"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			}, {
+				attr : "float",
+				val : "left"
+			} ]
+		} ]
+	},
+	{
+		divname : "seconddiv",
+		id : "margin_float_left_2",
+		title : "MARGIN & FLOAT LEFT",
+		desc : "Change margin of second div | both div = float left",
+		attr : "margin",
+		suffix : "",
+		min : 0,
+		max : 50,
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			}, {
+				attr : "float",
+				val : "left"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			}, {
+				attr : "float",
+				val : "left"
+			} ]
+		} ]
+	},
+	{
+		divname : "firstdiv",
+		id : "margin_float_left_right_1",
+		title : "MARGIN, FLOAT LEFT & FLOAT RIGHT",
+		desc : "Change margin of first div | first div = float left & second div = float right",
+		attr : "margin",
+		suffix : "",
+		min : 0,
+		max : 50,
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			}, {
+				attr : "float",
+				val : "left"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			}, {
+				attr : "float",
+				val : "right"
+			} ]
+		} ]
+	},
+	{
+		divname : "seconddiv",
+		id : "margin_float_left_right_2",
+		title : "MARGIN, FLOAT LEFT & FLOAT RIGHT",
+		desc : "Change margin of second div | first div = float left & second div = float right",
+		attr : "margin",
+		suffix : "",
+		min : 0,
+		max : 50,
+		additional : [ {
+			divname : "firstdiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			}, {
+				attr : "float",
+				val : "left"
+			} ]
+		}, {
+			divname : "seconddiv",
+			css : [ {
+				attr : "width",
+				val : "100px"
+			}, {
+				attr : "float",
+				val : "right"
+			} ]
+		} ]
+	} ];
+
+	//[ an1, an2, an3, an4, an5, an6, an7, an8 ];
+</script>
+<script
+	type="text/javascript"
+	src="animate.js"></script>
+</head>
+
+<body>
+
+	<div id="demodiv"></div>
+
+	<div
+		id="code"
+		style="border: 1px solid; border-radius: 10px; padding: 5px; margin: 0px; position: absolute; display: inline-block; bottom: 5px; right: 5px; width: 800px; height: 400px; box-shadow: 5px 10px 8px 8px #888888;">
+		<div style="margin: 0px; padding: 0px; float: left;">
+			<h2 style="font-size: 25px; margin: 0px; color: darkblue; display: inline; float: left; position: absolute; top: 5; left: 5">
+				CSS in Action - By <a
+					href="http://itsallbinary.com/"
+					target="_blank">itsallbinary.com</a>
+			</h2>
+
+		</div>
+		<div style="margin: 0px; padding: 0px;">
+			<a
+				href="http://itsallbinary.com/"
+				target="_blank"><img
+				src="http://itsallbinary.com/wp-content/uploads/2017/03/final_itsallbinary.gif"
+				alt="Its All Binary"
+				height="15%"
+				width="15%"
+				style="margin: 0px; float: right;"> </a>
+
+		</div>
+		<div style="margin: 0px; margin-top: 10px; padding: 0px;">
+
+			<div
+				id="codeheader"
+				style="margin: 0px; margin-top: 20px; padding: 0px; height: 60px;"></div>
+			<select
+				id="divSelection"
+				onchange="setDemoCodeAsPerSelection()"
+				style="background-color: PaleTurquoise; cursor: pointer; float: right; padding: 4px; border: none; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.19);">
+				<option value="side-side">Two separate divs</option>
+				<option value="inside">div inside div</option>
+			</select>
+			<!-- <div style="margin: 0px; margin-top: 20px; padding: 0px;">
+				<input
+					id="progressbar"
+					type="range"
+					min="1"
+					max="100"
+					value="50"
+					style="width: 100%;" />
+			</div> -->
+			<div
+				id="sidebar"
+				style="border: 1px solid; margin-top: 10px; padding-left: 5px; width: 190px; height: 300px; float: left; overflow: auto; font-family: 'Lato', sans-serif;">
+				<span style=""><strong>Select CSS Attribute to see it in action:</strong><br /> </span>
+			</div>
+			<div
+				id="codepad"
+				style="border: 1px solid; margin: 0px; margin-left: 200px; margin-top: 10px; padding: 10px; height: 300px;">
+				<span
+					id="codepaste"
+					style="margin: 0px; padding: 0px; white-space: pre-wrap; font-size: 14px; font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New;"></span>
+			</div>
+		</div>
+	</div>
+
+	<div
+		id="message"
+		align="center"
+		style="position: absolute; top: 200px; margin-left: 30%; border-radius: 10px; padding: 0% 10% 0% 10%; background-color: PowderBlue; display: inline-block; white-space: pre-wrap; font-size: 40px; font-family: 'Lato', sans-serif;">aaa</div>
+
+	<div
+		id="cssValueMessage"
+		align="center"
+		style="position: absolute; top: 100px; margin-left: 30%; border-radius: 10px; padding: 0% 10% 0% 10%; background-color: PowderBlue; display: inline-block; white-space: pre-wrap; font-size: 20px; font-family: 'Lato', sans-serif;">aaa</div>
+
+
+</body>
+
+</html>

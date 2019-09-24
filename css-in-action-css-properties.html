@@ -28,7 +28,7 @@
 			divname : "firstdiv",
 			css : [ {
 				attr : "border",
-				val : "2px solid"
+				val : "4px solid"
 			}, {
 				attr : "border-color",
 				val : "blue"
@@ -37,7 +37,7 @@
 			divname : "seconddiv",
 			css : [ {
 				attr : "border",
-				val : "2px solid"
+				val : "4px solid"
 			}, {
 				attr : "border-color",
 				val : "red"
@@ -65,8 +65,16 @@
 				attr : "padding",
 				sideSpecific : true,
 				suffix : "",
-				min : 0,
-				max : 50
+				changes : [ {
+					unit : "px",
+					min : 0,
+					max : 50
+				}, {
+					unit : "%",
+					min : 0,
+					max : 10,
+					animationSpeed : 200
+				} ]
 			},
 			{
 				divname : "seconddiv",
@@ -76,8 +84,15 @@
 				attr : "margin",
 				sideSpecific : true,
 				suffix : "",
-				min : 0,
-				max : 50
+				changes : [ {
+					unit : "px",
+					min : 0,
+					max : 50
+				}, {
+					unit : "%",
+					min : 0,
+					max : 10
+				} ]
 			},
 			{
 				divname : "seconddiv",
@@ -103,8 +118,15 @@
 				attr : "border",
 				sideSpecific : true,
 				suffix : " solid",
-				min : 1,
-				max : 20,
+				changes : [ {
+					unit : "px",
+					min : 1,
+					max : 20
+				}, {
+					unit : "%",
+					min : 0,
+					max : 10
+				} ],
 				additional : [ {
 					divname : "seconddiv",
 					css : [ {
@@ -138,8 +160,15 @@
 				desc : "Change outline of second div",
 				attr : "outline",
 				suffix : " solid",
-				min : 1,
-				max : 20,
+				changes : [ {
+					unit : "px",
+					min : 1,
+					max : 20
+				}, {
+					unit : "%",
+					min : 0,
+					max : 10
+				} ],
 				additional : [ {
 					divname : "seconddiv",
 					css : [ {
@@ -161,8 +190,41 @@
 				desc : "Change width of first div & width of second div constant.",
 				attr : "width",
 				suffix : "",
-				min : 100,
-				max : 120,
+				changes : [ {
+					unit : "px",
+					min : 100,
+					max : 120
+				}, {
+					unit : "%",
+					min : 0,
+					max : 10,
+					animationSpeed : 500
+				} ],
+				additional : [ {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "100px"
+					} ]
+				} ]
+			},
+			{
+				divname : "firstdiv",
+				id : "height",
+				title : "HEIGHT",
+				desc : "Change height of first div & width of second div constant.",
+				attr : "height",
+				suffix : "",
+				changes : [ {
+					unit : "px",
+					min : 100,
+					max : 150
+				}, {
+					unit : "%",
+					min : 0,
+					max : 10,
+					animationSpeed : 500
+				} ],
 				additional : [ {
 					divname : "seconddiv",
 					css : [ {
@@ -248,41 +310,17 @@
 			},
 			{
 				divname : "firstdiv",
-				id : "margin_width_1",
-				title : "MARGIN & WIDTH",
-				desc : "Change margin of first div | both div of fixed width.",
-				attr : "margin",
+				id : "textalign",
+				title : "TEXT ALIGN",
+				desc : "Change text alignment",
+				attr : "text-align",
 				suffix : "",
-				min : 0,
-				max : 50,
+				values : [ 'left', 'right', 'center', 'justify' ],
 				additional : [ {
 					divname : "firstdiv",
 					css : [ {
 						attr : "width",
-						val : "100px"
-					} ]
-				}, {
-					divname : "seconddiv",
-					css : [ {
-						attr : "width",
-						val : "100px"
-					} ]
-				} ]
-			},
-			{
-				divname : "seconddiv",
-				id : "margin_width_2",
-				title : "MARGIN & WIDTH",
-				desc : "Change margin of second div | both div of fixed width.",
-				attr : "margin",
-				suffix : "",
-				min : 0,
-				max : 50,
-				additional : [ {
-					divname : "firstdiv",
-					css : [ {
-						attr : "width",
-						val : "100px"
+						val : "200px"
 					} ]
 				}, {
 					divname : "seconddiv",
@@ -294,21 +332,17 @@
 			},
 			{
 				divname : "firstdiv",
-				id : "top_width_position_absolute",
-				title : "TOP, WIDTH & POSITION ABSOLUTE",
-				desc : "Change top of first div | both div = fixed width & first div position = absolute",
-				attr : "top",
+				id : "textdecoration",
+				title : "TEXT DECORATION",
+				desc : "Change text decoration",
+				attr : "text-decoration",
 				suffix : "",
-				min : 0,
-				max : 50,
+				values : [ 'overline', 'line-through', 'underline', 'none' ],
 				additional : [ {
 					divname : "firstdiv",
 					css : [ {
-						attr : "width",
-						val : "100px"
-					}, {
-						attr : "position",
-						val : "absolute"
+						attr : "border",
+						val : "0px"
 					} ]
 				}, {
 					divname : "seconddiv",
@@ -319,201 +353,106 @@
 				} ]
 			},
 			{
-				divname : "seconddiv",
-				id : "bottom_width_position_absolute",
-				title : "BOTTOM, WIDTH & POSITION ABSOLUTE",
-				desc : "Change bottom of second div | both div = fixed width & second div position = absolute",
-				attr : "bottom",
+				divname : "firstdiv",
+				id : "texttransform",
+				title : "TEXT TRANSFORM",
+				desc : "Transform text",
+				attr : "text-transform",
 				suffix : "",
-				min : 0,
-				max : 50,
+				values : [ 'uppercase', 'lowercase', 'capitalize' ],
 				additional : [ {
 					divname : "firstdiv",
 					css : [ {
-						attr : "width",
-						val : "100px"
+						attr : "border",
+						val : "0px"
 					} ]
 				}, {
 					divname : "seconddiv",
 					css : [ {
 						attr : "width",
 						val : "100px"
-					}, {
-						attr : "position",
-						val : "absolute"
 					} ]
 				} ]
 			},
+			{
+				divname : "firstdiv",
+				id : "textindent",
+				title : "TEXT INDENT",
+				desc : "Indent text",
+				attr : "text-indent",
+				suffix : "",
+				changes : [ {
+					unit : "px",
+					min : 100,
+					max : 150
+				} ],
 
-			/**
-			 * Div side by side other div
-			 */
+			},
+			{
+				divname : "firstdiv",
+				id : "letterspacing",
+				title : "LETTER SPACING",
+				desc : "Spacing between letters",
+				attr : "letter-spacing",
+				suffix : "",
+				changes : [ {
+					unit : "px",
+					min : -10,
+					max : 10,
+					animationSpeed : 500
+				} ],
 
-			{
-				divname : "firstdiv",
-				id : "width_float_left_1",
-				title : "WIDTH & FLOAT LEFT",
-				desc : "Change width of first div | both div = float left",
-				attr : "width",
-				suffix : "",
-				min : 100,
-				max : 120,
-				additional : [ {
-					divname : "firstdiv",
-					css : [ {
-						attr : "float",
-						val : "left"
-					} ]
-				}, {
-					divname : "seconddiv",
-					css : [ {
-						attr : "width",
-						val : "100px"
-					}, {
-						attr : "float",
-						val : "left"
-					} ]
-				} ]
-			},
-			{
-				divname : "seconddiv",
-				id : "width_float_left_2",
-				title : "WIDTH & FLOAT LEFT",
-				desc : "Change width of second div | both div = float left",
-				attr : "width",
-				suffix : "",
-				min : 100,
-				max : 120,
-				additional : [ {
-					divname : "firstdiv",
-					css : [ {
-						attr : "width",
-						val : "100px"
-					}, {
-						attr : "float",
-						val : "left"
-					} ]
-				}, {
-					divname : "seconddiv",
-					css : [ {
-						attr : "float",
-						val : "left"
-					} ]
-				} ]
 			},
 			{
 				divname : "firstdiv",
-				id : "margin_float_left_1",
-				title : "MARGIN & FLOAT LEFT",
-				desc : "Change margin of first div | both div = float left",
-				attr : "margin",
+				id : "lineheight",
+				title : "LINE HEIGHT",
+				desc : "Height between lines",
+				attr : "line-height",
 				suffix : "",
-				min : 0,
-				max : 50,
-				additional : [ {
-					divname : "firstdiv",
-					css : [ {
-						attr : "width",
-						val : "100px"
-					}, {
-						attr : "float",
-						val : "left"
-					} ]
-				}, {
-					divname : "seconddiv",
-					css : [ {
-						attr : "width",
-						val : "100px"
-					}, {
-						attr : "float",
-						val : "left"
-					} ]
-				} ]
-			},
-			{
-				divname : "seconddiv",
-				id : "margin_float_left_2",
-				title : "MARGIN & FLOAT LEFT",
-				desc : "Change margin of second div | both div = float left",
-				attr : "margin",
-				suffix : "",
-				min : 0,
-				max : 50,
-				additional : [ {
-					divname : "firstdiv",
-					css : [ {
-						attr : "width",
-						val : "100px"
-					}, {
-						attr : "float",
-						val : "left"
-					} ]
-				}, {
-					divname : "seconddiv",
-					css : [ {
-						attr : "width",
-						val : "100px"
-					}, {
-						attr : "float",
-						val : "left"
-					} ]
-				} ]
+				changes : [ {
+					unit : "",
+					min : 0,
+					max : 3,
+					animationSpeed : 500,
+					increment : 0.1
+				} ],
+
 			},
 			{
 				divname : "firstdiv",
-				id : "margin_float_left_right_1",
-				title : "MARGIN, FLOAT LEFT & FLOAT RIGHT",
-				desc : "Change margin of first div | first div = float left & second div = float right",
-				attr : "margin",
+				id : "wordspacing",
+				title : "WORD SPACING",
+				desc : "Spacing between words",
+				attr : "word-spacing",
 				suffix : "",
-				min : 0,
-				max : 50,
-				additional : [ {
-					divname : "firstdiv",
-					css : [ {
-						attr : "width",
-						val : "100px"
-					}, {
-						attr : "float",
-						val : "left"
-					} ]
-				}, {
-					divname : "seconddiv",
-					css : [ {
-						attr : "width",
-						val : "100px"
-					}, {
-						attr : "float",
-						val : "right"
-					} ]
-				} ]
+				changes : [ {
+					unit : "px",
+					min : -10,
+					max : 10,
+					animationSpeed : 300,
+				} ],
+
 			},
 			{
-				divname : "seconddiv",
-				id : "margin_float_left_right_2",
-				title : "MARGIN, FLOAT LEFT & FLOAT RIGHT",
-				desc : "Change margin of second div | first div = float left & second div = float right",
-				attr : "margin",
+				divname : "firstdiv",
+				id : "textshadow",
+				title : "TEXT SHADOW",
+				desc : "text-shadow",
+				attr : "text-shadow",
 				suffix : "",
-				min : 0,
-				max : 50,
+				values : [ '3px 2px red', '10px 5px green', '30px 20px yellow' ],
 				additional : [ {
 					divname : "firstdiv",
 					css : [ {
-						attr : "width",
-						val : "100px"
-					}, {
-						attr : "float",
-						val : "left"
+						attr : "border",
+						val : "0px"
 					} ]
 				}, {
 					divname : "seconddiv",
 					css : [ {
 						attr : "width",
 						val : "100px"
-					}, {
-						attr : "float",
-						val : "right"
 					} ]
 				} ]
 			} ];

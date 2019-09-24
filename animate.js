@@ -6,6 +6,8 @@
 	var messageDelay = 1000;
 	// Selected demo code option from dropdown.
 	var selectedDemoOptionGlobal = "side-side";
+	// Default value to increment
+	var defaultIncrement = 1;
 
 
 	/**
@@ -186,8 +188,9 @@
 			color = "red";
 		}
 		
-		var cssconcat = styleattr+": " +styleval ;
-		escapedCodeString = escapedCodeString.replace( new RegExp('\\b' + cssconcat + '\\b', "g"),"<strong><font color='"+color+"' size='4'>"+cssconcat+"</font></strong>");
+		var cssconcat = styleattr+": " +styleval;
+		console.log(" highlightCSS cssconcat -" + cssconcat+"-");
+		escapedCodeString = escapedCodeString.replace( new RegExp( cssconcat , "g"),"<strong><font color='"+color+"' size='4'>"+cssconcat+"</font></strong>");
 		return escapedCodeString; 
 	}
 
@@ -236,22 +239,56 @@
 	 */
 	function expandAnimationsArray(){
 		var sideVariations = ['left','right','top','bottom'];
+	// var unitVariations = ['px','%'];
 		var tempAnimatons = [];
 		var tempIndex = 0;
 		for(var i=0;i< animations.length; i++){
-			tempAnimatons[tempIndex] = animations[i];
-			tempIndex++;
 			
-			if(animations[i].sideSpecific == true){
-				for(side of sideVariations){
-					var newAnim = $.extend(true, {}, animations[i]);
-					newAnim.id = newAnim.id + "-" + side;
-					newAnim.title = newAnim.title + " (" + side + ")";
-					newAnim.attr = newAnim.attr + "-" + side;						
-					newAnim.sideSpecific = false;
-					tempAnimatons[tempIndex] = newAnim;
+			
+			
+			if(animations[i].changes){
+			
+				for( change of animations[i].changes){
+					
+					tempAnimatons[tempIndex] = $.extend(true, {}, animations[i]);
+					delete tempAnimatons[tempIndex].changes;
+				
+					console.log("setting main unit : "  + change.unit + " tempIndex = " + tempIndex 
+							+ " change.min " + change.min + " change.max "+change.max);
+					tempAnimatons[tempIndex].unit = change.unit;
+					tempAnimatons[tempIndex].min = change.min;
+					tempAnimatons[tempIndex].max = change.max;
+					tempAnimatons[tempIndex].animationSpeed = change.animationSpeed;
+					tempAnimatons[tempIndex].increment = change.increment;
+					
 					tempIndex++;
+				
+					if(animations[i].sideSpecific == true){
+						
+						for(side of sideVariations){
+							var newAnim = $.extend(true, {}, animations[i]);
+							newAnim.id = newAnim.id + "-" + side;
+							newAnim.title = newAnim.title + " (" + side + ")";
+							newAnim.attr = newAnim.attr + "-" + side;						
+							newAnim.sideSpecific = false;
+							console.log("setting sideSpecific unit : "  + change.unit + " tempIndex = " + tempIndex);
+							newAnim.unit = change.unit;
+							newAnim.min = change.min;
+							newAnim.max = change.max;
+							newAnim.animationSpeed = change.animationSpeed;
+							newAnim.increment = change.increment;
+
+							tempAnimatons[tempIndex] = newAnim;
+							tempIndex++;
+						}
+					}
 				}
+			}else{
+				
+				tempAnimatons[tempIndex] = $.extend(true, {}, animations[i]);
+				delete tempAnimatons[tempIndex].changes;
+				
+				tempIndex++;
 			}
 		}
 		console.log(JSON.stringify(tempAnimatons))
@@ -273,7 +310,8 @@
 			
 			$('#codeheader').html(html_code_header(animations[attrIndex].title, animations[attrIndex].desc));
 			
-			$('#message').text(animations[attrIndex].title);
+
+			$('#message').text(animations[attrIndex].title +(animations[attrIndex].unit ? ( " (" + animations[attrIndex].unit + ")") : ""));
 			
 			// Keep showing message for some time & then start animation.
 			setTimeout(function() {
@@ -331,14 +369,22 @@
 	 * Animate with values growing up by 1 each time.
 	 */
 	function animateup(attrIndex, start) {
+		console.log("UP start " + start + " animations[attrIndex].max " + animations[attrIndex].max + " condition " +(start < animations[attrIndex].max) );
 		if (start < animations[attrIndex].max) {
+			
+			var currentAnimationSpeed = animations[attrIndex].animationSpeed ? animations[attrIndex].animationSpeed : animationSpeed;
+			var currentIncrement = animations[attrIndex].increment ? animations[attrIndex].increment : defaultIncrement;
+			var currentStart = Number((currentIncrement < 1) ? start.toFixed(1) : start);
+			
+			console.log("UP currentAnimationSpeed " + currentAnimationSpeed + " currentIncrement " + currentIncrement + " currentStart " + currentStart);
+			
 			setTimeout(function() {
 				var styleattr = animations[attrIndex].attr;
-				var styleval = (start + 'px') + animations[attrIndex].suffix;
+				var styleval = (currentStart + animations[attrIndex].unit) + animations[attrIndex].suffix;
 				console.log("changing up " + styleattr + " to " + styleval);
 				applyCSS(attrIndex, styleattr, styleval);
-				animateup(attrIndex, start + 1);
-			}, animationSpeed);
+				animateup(attrIndex, currentStart + currentIncrement);
+			}, currentAnimationSpeed);
 		} else {
 			var styleattr = animations[attrIndex].attr;
 			console.log("start changing down " + styleattr);
@@ -352,13 +398,20 @@
 	 */
 	function animatedown(attrIndex, start, min) {
 		if (start >= min) {
+			
+			var currentAnimationSpeed = animations[attrIndex].animationSpeed ? animations[attrIndex].animationSpeed : animationSpeed;
+			var currentIncrement = animations[attrIndex].increment ? animations[attrIndex].increment : defaultIncrement;
+			var currentStart = Number((currentIncrement < 1) ? start.toFixed(1) : start);
+			
+			console.log("DOWN currentAnimationSpeed " + currentAnimationSpeed + " currentIncrement " + currentIncrement + " currentStart " + currentStart);
+
 			setTimeout(function() {
 				var styleattr = animations[attrIndex].attr;
-				var styleval = (start + 'px') + animations[attrIndex].suffix;
+				var styleval = (currentStart + animations[attrIndex].unit) + animations[attrIndex].suffix;
 				console.log("changing down " + styleattr + " to " + styleval);
 				applyCSS(attrIndex, styleattr, styleval);
-				animatedown(attrIndex, start - 1, min);
-			}, animationSpeed);
+				animatedown(attrIndex, currentStart - currentIncrement, min);
+			}, currentAnimationSpeed);
 		} else {
 			resetStyling();
 			animate(attrIndex + 1);
@@ -399,13 +452,13 @@
 		return `
 <div
 			id="firstdiv"
-			style="border: 2px solid; border-color: blue;">
+			style="border: 4px solid; border-color: blue;">
 This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. 
 </div>
 
 <div
 	id="seconddiv"
-	style="border: 2px solid; border-color: red;">
+	style="border: 4px solid; border-color: red;">
 This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV.  
 </div>`;
 	}
@@ -414,11 +467,11 @@ This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. Th
 		return `
 <div
 			id="firstdiv"
-			style="border: 2px solid; border-color: blue;">
+			style="border: 4px solid; border-color: blue;">
 This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. 
 	<div
 		id="seconddiv"
-		style="border: 2px solid; border-color: red;">
+		style="border: 4px solid; border-color: red;">
 		This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV.  
 	</div>
 </div>
