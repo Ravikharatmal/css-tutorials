@@ -20,6 +20,7 @@
 		// Hide message at start
 		$('#message').hide();
 		$('#cssValueMessage').hide();
+		$('#popupmessage').hide();
 		// First load panel to show HTML code in UI.
 		loadCodePanel();
 			
@@ -56,6 +57,9 @@
 			else if (document.getElementById("divSelection").value == "inside"){
 				console.log("Setting div inside div demo code");
 				$('#demodiv').html(html_demo_div_inside_div());
+			}else if (document.getElementById("divSelection").value == "three-side-side"){
+				console.log("Setting three side by side demo code");
+				$('#demodiv').html(html_demo_three_div_side_by_side());
 			}
 		} else {
 	    	$('#demodiv').html(html_demo_div_side_by_side());
@@ -201,7 +205,6 @@
 		console.log(animations[attrIndex].divname);
 		console.log('Applying attrIndex ' + attrIndex + ' styleattr '
 				+ styleattr + ' styleval ' + styleval);
-		
 				
 		$('#' + animations[attrIndex].divname).css(styleattr, styleval);
 		
@@ -220,6 +223,17 @@
 				}
 			}
 		}
+		
+		// Popup message
+		$('#popupmessage').text(styleattr+"="+styleval);
+		var offset = $('#' + animations[attrIndex].divname).offset();
+		console.log('Offset = ' + offset.top + " " + offset.left + " "
+				+ $('#' + animations[attrIndex].divname).outerHeight(false) + " " 
+				+ $('#' + animations[attrIndex].divname).outerWidth(false)	+ " " +  $('#popupmessage').outerWidth(false));
+		var popupTop = offset.top+$('#' + animations[attrIndex].divname).outerHeight(false) + 2;
+		var popupLeft = offset.left+$('#' + animations[attrIndex].divname).outerWidth(false)-$('#popupmessage').outerWidth(false);
+		console.log('Offset popupmessage = ' + popupTop + " " + popupLeft);
+		$('#popupmessage').offset({ top: popupTop, left: popupLeft});
 		
 		
 		loadCodePanel(attrIndex, styleattr, styleval);
@@ -242,9 +256,7 @@
 	// var unitVariations = ['px','%'];
 		var tempAnimatons = [];
 		var tempIndex = 0;
-		for(var i=0;i< animations.length; i++){
-			
-			
+		for(var i=0;i< animations.length; i++){			
 			
 			if(animations[i].changes){
 			
@@ -255,11 +267,15 @@
 				
 					console.log("setting main unit : "  + change.unit + " tempIndex = " + tempIndex 
 							+ " change.min " + change.min + " change.max "+change.max);
+					tempAnimatons[tempIndex].attr = change.attr;
+					tempAnimatons[tempIndex].animationSpeed = change.animationSpeed;
+					
 					tempAnimatons[tempIndex].unit = change.unit;
 					tempAnimatons[tempIndex].min = change.min;
-					tempAnimatons[tempIndex].max = change.max;
-					tempAnimatons[tempIndex].animationSpeed = change.animationSpeed;
+					tempAnimatons[tempIndex].max = change.max;					
 					tempAnimatons[tempIndex].increment = change.increment;
+					
+					tempAnimatons[tempIndex].values = change.values;
 					
 					tempIndex++;
 				
@@ -269,7 +285,7 @@
 							var newAnim = $.extend(true, {}, animations[i]);
 							newAnim.id = newAnim.id + "-" + side;
 							newAnim.title = newAnim.title + " (" + side + ")";
-							newAnim.attr = newAnim.attr + "-" + side;						
+							newAnim.attr = change.attr + "-" + side;						
 							newAnim.sideSpecific = false;
 							console.log("setting sideSpecific unit : "  + change.unit + " tempIndex = " + tempIndex);
 							newAnim.unit = change.unit;
@@ -283,13 +299,14 @@
 						}
 					}
 				}
-			}else{
-				
-				tempAnimatons[tempIndex] = $.extend(true, {}, animations[i]);
-				delete tempAnimatons[tempIndex].changes;
-				
-				tempIndex++;
-			}
+			}/*
+				 * else{
+				 * 
+				 * tempAnimatons[tempIndex] = $.extend(true, {}, animations[i]);
+				 * delete tempAnimatons[tempIndex].changes;
+				 * 
+				 * tempIndex++; }
+				 */
 		}
 		console.log(JSON.stringify(tempAnimatons))
 		animations = tempAnimatons;
@@ -307,6 +324,7 @@
 			// Display description message for animation about to start.
 			$('#message').show();
 			console.log("Message " + animations[attrIndex].title + " - " + animations[attrIndex].desc);
+			
 			
 			$('#codeheader').html(html_code_header(animations[attrIndex].title, animations[attrIndex].desc));
 			
@@ -326,6 +344,7 @@
 	}
 	
 	function animateStart(attrIndex){
+		$('#popupmessage').show();
 		var styleattr = animations[attrIndex].attr;
 		if (styleattr) {
 			console.log("start changing up " + styleattr);
@@ -335,6 +354,7 @@
 			animateup(attrIndex, animations[attrIndex].min);
 			}
 		} else {
+			$('#popupmessage').hide();
 			console.log("Completed !");
 		}
 	}
@@ -346,9 +366,9 @@
 				var styleattr = animations[attrIndex].attr;
 				var cssVal = animations[attrIndex].values[cssValIndex];
 				
-				$('#cssValueMessage').show();
-				$('#cssValueMessage').text(styleattr + " = " + cssVal);
-				console.log("CSS Val message = " + styleattr + " = " + cssVal);
+// $('#cssValueMessage').show();
+// $('#cssValueMessage').text(styleattr + " = " + cssVal);
+// console.log("CSS Val message = " + styleattr + " = " + cssVal);
 				
 				applyCSS(attrIndex, styleattr, cssVal);
 				animateValues(attrIndex, cssValIndex+1)
@@ -357,6 +377,8 @@
 				
 				setTimeout(function() {
 					$('#cssValueMessage').hide();
+					$('#popupmessage').text('');
+					$('#popupmessage').hide();
 					console.log("Completed values !");
 					resetStyling();
 					animate(attrIndex + 1);
@@ -413,6 +435,8 @@
 				animatedown(attrIndex, currentStart - currentIncrement, min);
 			}, currentAnimationSpeed);
 		} else {
+			$('#popupmessage').text('');
+			$('#popupmessage').hide();
 			resetStyling();
 			animate(attrIndex + 1);
 		}
@@ -448,6 +472,16 @@
 		<br/><strong>Change: </strong>${desc}</font><br/>`
 	}
 	
+	function html_demo_single_div(){
+		return `
+<div
+			id="firstdiv"
+			style="border: 4px solid; border-color: blue;">
+This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. 
+</div>`;
+	}
+	
+	
 	function html_demo_div_side_by_side(){
 		return `
 <div
@@ -462,6 +496,28 @@ This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This
 This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV.  
 </div>`;
 	}
+	
+	function html_demo_three_div_side_by_side(){
+		return `
+<div
+			id="firstdiv"
+			style="border: 4px solid; border-color: blue;">
+This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. 
+</div>
+
+<div
+	id="seconddiv"
+	style="border: 4px solid; border-color: red;">
+This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. This is the content of the SECOND-DIV.  
+</div>
+
+<div
+	id="thirddiv"
+	style="border: 4px solid; border-color: red;">
+This is the content of the THIRD-DIV. This is the content of the THIRD-DIV. This is the content of the THIRD-DIV. This is the content of the THIRD-DIV. This is the content of the THIRD-DIV. This is the content of the THIRD-DIV. This is the content of the THIRD-DIV.  
+</div>
+`;
+	}	
 	
 	function html_demo_div_inside_div(){
 		return `
