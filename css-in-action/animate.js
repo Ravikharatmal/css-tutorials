@@ -3,11 +3,13 @@
 	// Mills to wait betwen CSS values animation.
 	var animationSpeedForValues = 2000;
 	// Message dsiplay time in mills
-	var messageDelay = 1000;
+	var messageDelay = 5000;
 	// Selected demo code option from dropdown.
 	var selectedDemoOptionGlobal = "side-side";
 	// Default value to increment
 	var defaultIncrement = 1;
+	// stop flag
+	var stopFlag = false;
 
 
 	/**
@@ -100,8 +102,7 @@
 			  
 		});
 		
-		$('.sidebarlink').click(function(event){
-			
+		$('.sidebarlink').on('click tap',function(event){
 			var ind = $(this).attr('ind');
 			console.log(ind);
 			if(ind == -1){
@@ -117,6 +118,12 @@
 			  animate(0);
 			  
 		}); 
+		
+		
+		$('#stopButton').on('click tap',function(event){
+				stop();			  
+		}); 
+		
 	}
 
 	/**
@@ -194,19 +201,25 @@
 		
 		var cssconcat = styleattr+": " +styleval;
 		console.log(" highlightCSS cssconcat -" + cssconcat+"-");
-		escapedCodeString = escapedCodeString.replace( new RegExp( cssconcat , "g"),"<strong><font color='"+color+"' size='4'>"+cssconcat+"</font></strong>");
+		escapedCodeString = escapedCodeString.replace( new RegExp( cssconcat , "g"),"<strong><font color='"+color+"' >"+cssconcat+"</font></strong>");
 		return escapedCodeString; 
 	}
 
 	/**
 	 * Apply given style along with additional CSS for given animation step.
 	 */
-	function applyCSS(attrIndex, styleattr, styleval) {
+	function applyCSS(attrIndex, styleattr, styleval, template) {
 		console.log(animations[attrIndex].divname);
 		console.log('Applying attrIndex ' + attrIndex + ' styleattr '
-				+ styleattr + ' styleval ' + styleval);
+				+ styleattr + ' styleval ' + styleval + ' template ' + template);
+		
+		var finalStyleVal = styleval;
+		if(template){
+			finalStyleVal = resolveTemplate(template, styleval);
+			console.log("finalStyleVal = " + finalStyleVal);
+		}
 				
-		$('#' + animations[attrIndex].divname).css(styleattr, styleval);
+		$('#' + animations[attrIndex].divname).css(styleattr, finalStyleVal);
 		
 		if (animations[attrIndex].additional) {
 			var adddiv;
@@ -225,7 +238,7 @@
 		}
 		
 		// Popup message
-		$('#popupmessage').text(styleattr+"="+styleval);
+		$('#popupmessage').text(styleattr+": "+finalStyleVal);
 		var offset = $('#' + animations[attrIndex].divname).offset();
 		console.log('Offset = ' + offset.top + " " + offset.left + " "
 				+ $('#' + animations[attrIndex].divname).outerHeight(false) + " " 
@@ -236,7 +249,11 @@
 		$('#popupmessage').offset({ top: popupTop, left: popupLeft});
 		
 		
-		loadCodePanel(attrIndex, styleattr, styleval);
+		loadCodePanel(attrIndex, styleattr, finalStyleVal);
+	}
+	
+	function resolveTemplate(template, val){
+		return eval('`'+template+'`');
 	}
 	
 	function animationStepProgressPercentage(attrIndex){
@@ -271,15 +288,23 @@
 					tempAnimatons[tempIndex].animationSpeed = change.animationSpeed;
 					
 					tempAnimatons[tempIndex].unit = change.unit;
+					tempAnimatons[tempIndex].template = change.template;
 					tempAnimatons[tempIndex].min = change.min;
 					tempAnimatons[tempIndex].max = change.max;					
 					tempAnimatons[tempIndex].increment = change.increment;
+					
+					// If specific additional property given then override
+					// global with this specific.
+					if(change.additional){
+						delete tempAnimatons[tempIndex].additional;
+						tempAnimatons[tempIndex].additional = change.additional;
+					}
 					
 					tempAnimatons[tempIndex].values = change.values;
 					
 					tempIndex++;
 				
-					if(animations[i].sideSpecific == true){
+					if(change.sideSpecific == true){
 						
 						for(side of sideVariations){
 							var newAnim = $.extend(true, {}, animations[i]);
@@ -289,6 +314,7 @@
 							newAnim.sideSpecific = false;
 							console.log("setting sideSpecific unit : "  + change.unit + " tempIndex = " + tempIndex);
 							newAnim.unit = change.unit;
+							newAnim.template = change.template;
 							newAnim.min = change.min;
 							newAnim.max = change.max;
 							newAnim.animationSpeed = change.animationSpeed;
@@ -317,19 +343,15 @@
 	 */
 	function animate(attrIndex) {		
 		
-		if (animations[attrIndex]) {
-			
-			
+		if (animations[attrIndex] && !isStop()) {	
 			
 			// Display description message for animation about to start.
+			var message = prepareMessageFlash(attrIndex);
+			$('#message').html(message);
 			$('#message').show();
 			console.log("Message " + animations[attrIndex].title + " - " + animations[attrIndex].desc);
 			
-			
 			$('#codeheader').html(html_code_header(animations[attrIndex].title, animations[attrIndex].desc));
-			
-
-			$('#message').text(animations[attrIndex].title +(animations[attrIndex].unit ? ( " (" + animations[attrIndex].unit + ")") : ""));
 			
 			// Keep showing message for some time & then start animation.
 			setTimeout(function() {
@@ -338,9 +360,17 @@
 			}, messageDelay);
 			
 		} else {
+			resetStop();
 			console.log("Completed !");
 		}
 
+	}
+	
+	function prepareMessageFlash(attrIndex){
+		var message = animations[attrIndex].title;
+		message = message + " - " + animations[attrIndex].attr;
+		message = message + (animations[attrIndex].unit ? ( " (" + animations[attrIndex].unit + ")") : "");
+		return html_flash_screen(animations[attrIndex].title, animations[attrIndex].desc, animations[attrIndex].attr, animations[attrIndex].unit);
 	}
 	
 	function animateStart(attrIndex){
@@ -361,7 +391,7 @@
 	
 	function animateValues(attrIndex, cssValIndex){
 		console.log("CSS VAL animate = " + animations[attrIndex].values[cssValIndex]);
-			if(animations[attrIndex].values[cssValIndex]){
+			if(animations[attrIndex].values[cssValIndex] && !isStop()){
 			setTimeout(function() {
 				var styleattr = animations[attrIndex].attr;
 				var cssVal = animations[attrIndex].values[cssValIndex];
@@ -391,6 +421,12 @@
 	 * Animate with values growing up by 1 each time.
 	 */
 	function animateup(attrIndex, start) {
+		
+		if(isStop()){
+			resetStop();
+			return;
+		}
+		
 		console.log("UP start " + start + " animations[attrIndex].max " + animations[attrIndex].max + " condition " +(start < animations[attrIndex].max) );
 		if (start < animations[attrIndex].max) {
 			
@@ -404,7 +440,7 @@
 				var styleattr = animations[attrIndex].attr;
 				var styleval = (currentStart + animations[attrIndex].unit) + animations[attrIndex].suffix;
 				console.log("changing up " + styleattr + " to " + styleval);
-				applyCSS(attrIndex, styleattr, styleval);
+				applyCSS(attrIndex, styleattr, styleval, animations[attrIndex].template);
 				animateup(attrIndex, currentStart + currentIncrement);
 			}, currentAnimationSpeed);
 		} else {
@@ -419,6 +455,10 @@
 	 * Animate with values reducing down by 1 each time.
 	 */
 	function animatedown(attrIndex, start, min) {
+		if(isStop()){
+			resetStop();
+			return;
+		}
 		if (start >= min) {
 			
 			var currentAnimationSpeed = animations[attrIndex].animationSpeed ? animations[attrIndex].animationSpeed : animationSpeed;
@@ -431,7 +471,7 @@
 				var styleattr = animations[attrIndex].attr;
 				var styleval = (currentStart + animations[attrIndex].unit) + animations[attrIndex].suffix;
 				console.log("changing down " + styleattr + " to " + styleval);
-				applyCSS(attrIndex, styleattr, styleval);
+				applyCSS(attrIndex, styleattr, styleval, animations[attrIndex].template);
 				animatedown(attrIndex, currentStart - currentIncrement, min);
 			}, currentAnimationSpeed);
 		} else {
@@ -460,16 +500,29 @@
 		}
 	}
 	
+	function isStop(){
+				console.log("STOP FLAG CHECK ------------ ! - " + stopFlag);
+				return stopFlag;
+	}
+	
+	function stop(){
+		stopFlag = true;
+		console.log("STOP FLAG ------------ ! - " + stopFlag);
+	}
+	
+	function resetStop(){
+		stopFlag = false;
+		console.log("STOP FLAG RESET ------------ ! - " + stopFlag);
+	}
+	
 	function html_sidebar_link_div(indexOfLink, backColor,idOfLink, titleOfLink){
-		return `<div class="sidebarlinkdiv" ind="${indexOfLink}" style=" margin: 0px; padding: 10px 0px 0px 10px;  background-color: ${backColor};"> <a class="sidebarlink" style="color: blue;" ind="${indexOfLink}" href="#${idOfLink}">${titleOfLink}</a><div> <br/>`
+		return `<div class="sidebarlinkdiv" ind="${indexOfLink}" style=" margin: 0px; padding: 10px 0px 0px 10px;  background-color: ${backColor};"><a class="sidebarlink" style="color: blue; display: block;" ind="${indexOfLink}" href="#${idOfLink}">${titleOfLink}</a><div>
+				 <br/>`
 	}
 	
 	function html_code_header(title,desc){
-		return `<font color='green' size='4'><br/><strong>Attribute(s): </strong>${title}&emsp;
-		<button id="replayFromhash" 
-			style="background-color: PaleTurquoise; cursor: pointer; margin: auto; padding: 4px; border: none; box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2), 0 2px 2px 0 rgba(0,0,0,0.19);" 
-			type="button" onclick="animateFromHashUrlIfPresent();" value="Replay">REPLAY</button>
-		<br/><strong>Change: </strong>${desc}</font><br/>`
+		return `<font color='green'><br/><strong>Attribute(s): </strong>${title}&emsp;
+				<br/><strong>Change: </strong>${desc}</font><br/>`
 	}
 	
 	function html_demo_single_div(){
@@ -513,7 +566,7 @@ This is the content of the SECOND-DIV. This is the content of the SECOND-DIV. Th
 
 <div
 	id="thirddiv"
-	style="border: 4px solid; border-color: red;">
+	style="border: 4px solid; border-color: green;">
 This is the content of the THIRD-DIV. This is the content of the THIRD-DIV. This is the content of the THIRD-DIV. This is the content of the THIRD-DIV. This is the content of the THIRD-DIV. This is the content of the THIRD-DIV. This is the content of the THIRD-DIV.  
 </div>
 `;
@@ -535,6 +588,10 @@ This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This
 	}
 	
 	function html_highlight_code(code){
-		return `<strong><font color='blue' size='3'>${code}</font></strong>`;
+		return `<strong><font color='blue'>${code}</font></strong>`;
+	}
+	
+	function html_flash_screen(title,desc, attr, unit){
+		return `<h2 align="center">${title}</h2><h5 align="center">(${desc})</h5><span style="font-size:20"><strong>CSS Property:</strong> ${attr} ${unit ? '<br/><strong>Unit: </strong>' + unit : ''}</span>`;
 	}
 	

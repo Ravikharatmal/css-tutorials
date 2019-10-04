@@ -6,15 +6,24 @@
 	content="width=device-width, initial-scale=1.0">
 <meta
 	name="description"
-	content="${classSimpleName} Guide | Usage, Javadoc, Examples for all methods">
+	content="CSS in action. quickest shorted tutorial of CSS through animation of css properties live in browser.">
 <link
 	rel="icon"
-	href="${rootPathForPackage}../../../../itsallbinary_ICON-1.gif"
+	href="itsallbinary_ICON-1.gif"
 	sizes="32x32">
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script
 	async
 	src="https://www.googletagmanager.com/gtag/js?id=UA-111395165-1"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag() {
+		dataLayer.push(arguments);
+	}
+	gtag('js', new Date());
+
+	gtag('config', 'UA-111395165-1');
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <style type="text/css">
@@ -72,6 +81,15 @@
 				attr : "border-color",
 				val : "red"
 			} ]
+		}, {
+			divname : "thirddiv",
+			css : [ {
+				attr : "border",
+				val : "4px solid"
+			}, {
+				attr : "border-color",
+				val : "green"
+			} ]
 		} ]
 	};
 
@@ -92,61 +110,118 @@
 				id : "padding",
 				title : "PADDING",
 				desc : "Try different values of padding of second div",
-				sideSpecific : true,
 				suffix : "",
-				changes : [ {
-					type : "increment",
-					attr : "padding",
-					unit : "px",
-					min : 0,
-					max : 50
-				}, {
-					type : "increment",
-					attr : "padding",
-					unit : "%",
-					min : 0,
-					max : 10,
-					animationSpeed : 200
-				} ]
+				changes : [
+						{
+							type : "increment",
+							attr : "padding",
+							sideSpecific : true,
+							unit : "px",
+							min : 0,
+							max : 50
+						},
+						{
+							type : "increment",
+							attr : "padding",
+							// sideSpecific : true,
+							unit : "%",
+							min : 0,
+							max : 10,
+							animationSpeed : 200
+						},
+						{
+							type : "increment",
+							attr : "padding",
+							template : "${Number(val)+5}px ${Number(val)+35}px ${Number(val)+70}px ${Number(val)+95}px",
+							unit : "",
+							min : 0,
+							max : 10,
+							animationSpeed : 200
+						}, ]
 			},
 			{
 				divname : "seconddiv",
 				id : "margin",
 				title : "MARGIN",
 				desc : "Try different values of margin of second div",
-				sideSpecific : true,
 				suffix : "",
-				changes : [ {
-					type : "increment",
-					attr : "margin",
-					unit : "px",
-					min : 0,
-					max : 50
-				}, {
-					type : "increment",
-					attr : "margin",
-					unit : "%",
-					min : 0,
-					max : 10,
-					animationSpeed : 200
-				} ]
+				changes : [
+						{
+							type : "increment",
+							attr : "margin",
+							sideSpecific : true,
+							unit : "px",
+							min : 0,
+							max : 50
+						},
+						{
+							type : "increment",
+							attr : "margin",
+							// sideSpecific : true,
+							unit : "%",
+							min : 0,
+							max : 10,
+							animationSpeed : 200
+						},
+						{
+							type : "increment",
+							attr : "margin",
+							template : "${Number(val)+5}px ${Number(val)+35}px ${Number(val)+70}px ${Number(val)+95}px",
+							unit : "",
+							min : 0,
+							max : 10,
+							animationSpeed : 200
+						},
+						{
+							type : "values",
+							attr : "margin",
+							values : [ 'auto', 'auto 0 0 0', '0 auto 0 0',
+									'0 0 auto 0', '0 0 0 auto' ],
+							animationSpeed : 200,
+							additional : [ {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						} ]
 			},
 			{
 				divname : "seconddiv",
-				id : "margin_auto",
-				title : "MARGIN (auto)",
-				desc : "Change margin of second div to auto",
-				suffix : "",
-				changes : [ {
-					type : "values",
-					attr : "margin",
-					values : [ 'auto' ],
-				} ],
+				id : "border_style",
+				title : "BORDER",
+				desc : "Try different values of border style of second div",
+				suffix : " solid",
+				changes : [
+						{
+							type : "values",
+							attr : "border-style",
+							values : [ 'solid', 'dotted', 'dashed', 'double',
+									'groove', 'ridge', 'inset', 'outset',
+									'none', 'hidden' ],
+						},
+						{
+							type : "values",
+							attr : "border-color",
+							values : [ 'red', 'green', 'yellow', '#FF4500',
+									'rgb(255,222,173)' ],
+							additional : [ {
+								divname : "seconddiv",
+								css : [ {
+									attr : "border-width",
+									val : "15px"
+								} ]
+							} ]
+						} ],
 				additional : [ {
 					divname : "seconddiv",
 					css : [ {
-						attr : "width",
-						val : "100px"
+						attr : "border-color",
+						val : "red"
+					}, {
+						attr : "border-width",
+						val : "15px"
 					} ]
 				} ]
 			},
@@ -155,11 +230,11 @@
 				id : "border_size",
 				title : "BORDER (size)",
 				desc : "Try different values of border size of second div",
-				sideSpecific : true,
 				suffix : " solid",
 				changes : [ {
 					type : "increment",
 					attr : "border",
+					sideSpecific : true,
 					unit : "px",
 					min : 1,
 					max : 20
@@ -177,28 +252,9 @@
 					css : [ {
 						attr : "border-color",
 						val : "red"
-					} ]
-				} ]
-			},
-			{
-				divname : "seconddiv",
-				id : "border_style",
-				title : "BORDER (style)",
-				desc : "Try different values of border style of second div",
-				suffix : " solid",
-				changes : [ {
-					type : "values",
-					attr : "border",
-					values : [ '10px solid', '10px dotted', '10px dashed',
-							'10px double', '20px groove', '20px ridge',
-							'20px inset', '20px outset', '20px none',
-							'20px hidden' ],
-				} ],
-				additional : [ {
-					divname : "seconddiv",
-					css : [ {
-						attr : "border-color",
-						val : "red"
+					}, {
+						attr : "border-style",
+						val : "solid"
 					} ]
 				} ]
 			},
@@ -555,7 +611,7 @@
 					divname : "firstdiv",
 					css : [ {
 						attr : "width",
-						val : "100px"
+						val : "200px"
 					}, {
 						attr : "height",
 						val : "100px"
@@ -567,7 +623,7 @@
 						val : "100px"
 					}, {
 						attr : "margin-top",
-						val : "100px"
+						val : "200px"
 					} ]
 				} ]
 			},
@@ -596,6 +652,76 @@
 					css : [ {
 						attr : "width",
 						val : "100px"
+					} ]
+				} ]
+			},
+			{
+				divname : "seconddiv",
+				id : "z-index",
+				title : "Z INDEX",
+				desc : "Try different values of z-index",
+				suffix : "",
+				changes : [ {
+					type : "increment",
+					attr : "z-index",
+					unit : "",
+					min : 0,
+					max : 8,
+					animationSpeed : 800
+				} ],
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "position",
+						val : "absolute"
+					}, {
+						attr : "width",
+						val : "300px"
+					}, {
+						attr : "background-color",
+						val : "lightblue"
+					}, {
+						attr : "z-index",
+						val : "2"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "position",
+						val : "absolute"
+					}, {
+						attr : "width",
+						val : "300px"
+					}, {
+						attr : "background-color",
+						val : "pink"
+					}, {
+						attr : "top",
+						val : "10px"
+					}, {
+						attr : "left",
+						val : "10px"
+					} ]
+				}, {
+					divname : "thirddiv",
+					css : [ {
+						attr : "position",
+						val : "absolute"
+					}, {
+						attr : "width",
+						val : "300px"
+					}, {
+						attr : "background-color",
+						val : "lightgreen"
+					}, {
+						attr : "top",
+						val : "25px"
+					}, {
+						attr : "left",
+						val : "25px"
+					}, {
+						attr : "z-index",
+						val : "5"
 					} ]
 				} ]
 			},
@@ -822,6 +948,92 @@
 						val : "100px"
 					} ]
 				} ]
+			}, {
+				divname : "firstdiv",
+				id : "color",
+				title : "COLOR",
+				desc : "Try different ways of color definitions.",
+				suffix : "",
+				changes : [ {
+					type : "increment",
+					attr : "background-color",
+					template : "rgb(${val}, 0, 0)",
+					unit : "",
+					min : 0,
+					max : 255,
+					animationSpeed : 10,
+				}, {
+					type : "increment",
+					attr : "background-color",
+					template : "rgb(0, ${val}, 0)",
+					unit : "",
+					min : 0,
+					max : 255,
+					animationSpeed : 10,
+				}, {
+					type : "increment",
+					attr : "background-color",
+					template : "rgb(0, 0, ${val})",
+					unit : "",
+					min : 0,
+					max : 255,
+					animationSpeed : 10,
+				}, {
+					type : "increment",
+					attr : "background-color",
+					template : "rgba(255, 0, 0, ${val})",
+					unit : "",
+					min : 0,
+					max : 1,
+					animationSpeed : 500,
+					increment : 0.1
+				}, {
+					type : "increment",
+					attr : "background-color",
+					template : "hsl(${val}, 100%, 50%)",
+					unit : "",
+					min : 0,
+					max : 360,
+					animationSpeed : 50,
+				}, {
+					type : "increment",
+					attr : "background-color",
+					template : "hsl(0, ${val}, 50%)",
+					unit : "%",
+					min : 0,
+					max : 100,
+					animationSpeed : 100,
+				}, {
+					type : "increment",
+					attr : "background-color",
+					template : "hsl(0, 100%, ${val})",
+					unit : "%",
+					min : 0,
+					max : 100,
+					animationSpeed : 100,
+				}, {
+					type : "increment",
+					attr : "background-color",
+					template : "hsla(0, 100%, 50%, ${val})",
+					unit : "",
+					min : 0,
+					max : 1,
+					animationSpeed : 500,
+					increment : 0.1
+				} ],
+				additional : [ {
+					divname : "firstdiv",
+					css : [ {
+						attr : "width",
+						val : "300px"
+					} ]
+				}, {
+					divname : "seconddiv",
+					css : [ {
+						attr : "width",
+						val : "300px"
+					} ]
+				} ]
 			} ];
 
 	//[ an1, an2, an3, an4, an5, an6, an7, an8 ];
@@ -833,7 +1045,9 @@
 
 <body>
 
-	<div id="demodiv"></div>
+	<div
+		id="demodiv"
+		style="position: relative; width: 68%; height: 100%; border: 1px solid grey; outline: 10px solid lightgrey; overflow: auto;"></div>
 
 	<p
 		id="popupmessage"
@@ -841,40 +1055,39 @@
 
 	<div
 		id="code"
-		style="border: 1px solid; border-radius: 10px; padding: 5px; margin: 0px; position: absolute; display: inline-block; bottom: 5px; right: 5px; width: 800px; height: 400px; box-shadow: 5px 10px 8px 8px #888888;">
-		<div style="margin: 0px; padding: 0px; float: left;">
-			<h2 style="font-size: 25px; margin: 0px; color: darkblue; display: inline; float: left; position: absolute; top: 5; left: 5">
-				CSS in Action - By <a
+		style="border: 1px solid; border-radius: 10px; padding: 5px; margin: 0px; position: absolute; top: 5px; right: 5px; width: 30%; height: 100%; box-shadow: 5px 10px 8px 8px #888888;">
+		<div
+			id="header"
+			style="">
+			<div style="margin: 0px; padding: 0px; float: left;">
+				<h2 style="font-size: 25px; margin: 0px; color: darkblue; display: inline; float: left; position: absolute; top: 5; left: 5">
+					CSS in Action
+					<!--  - By <a
 					href="http://itsallbinary.com/"
-					target="_blank">itsallbinary.com</a>
-			</h2>
+					target="_blank">itsallbinary.com</a> -->
+				</h2>
 
+			</div>
+			<div style="margin: 0px; padding: 0px; position: absolute; right: 0;">
+				<a
+					href="http://itsallbinary.com/"
+					target="_blank"
+					style="display: inline-block; cursor: pointer;"><img
+					src="http://itsallbinary.com/wp-content/uploads/2017/03/final_itsallbinary.gif"
+					alt="Its All Binary"
+					style="margin: 0px; height: auto; width: 50%; float: right; z-index: 1"></img> </a>
+
+			</div>
 		</div>
-		<div style="margin: 0px; padding: 0px;">
-			<a
-				href="http://itsallbinary.com/"
-				target="_blank"><img
-				src="http://itsallbinary.com/wp-content/uploads/2017/03/final_itsallbinary.gif"
-				alt="Its All Binary"
-				height="15%"
-				width="15%"
-				style="margin: 0px; float: right;"> </a>
+		<!-- <div style="margin: 0px; margin-top: 10px; padding: 0px;"> -->
 
-		</div>
-		<div style="margin: 0px; margin-top: 10px; padding: 0px;">
-
+		<div
+			id="selection"
+			style="margin: 0px; padding: 0px; margin-top: 5px; position: relative;">
 			<div
 				id="codeheader"
-				style="margin: 0px; margin-top: 20px; padding: 0px; height: 60px;"></div>
-			<select
-				id="divSelection"
-				onchange="setDemoCodeAsPerSelection()"
-				style="background-color: PaleTurquoise; cursor: pointer; position: absolute; right: 0; padding: 4px; border: none; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.19);">
-				<!-- <option value="single">Single div</option> -->
-				<option value="side-side">Two separate divs</option>
-				<option value="inside">div inside div</option>
-				<option value="three-side-side">Three separate divs</option>
-			</select>
+				style="position: relative; margin: 0px; margin-top: 20px; padding: 0px; height: 60px; font-size: 16px;"></div>
+
 			<!-- <div style="margin: 0px; margin-top: 20px; padding: 0px;">
 				<input
 					id="progressbar"
@@ -884,25 +1097,70 @@
 					value="50"
 					style="width: 100%;" />
 			</div> -->
-			<div
-				id="sidebar"
-				style="border: 1px solid; margin-top: 10px; padding-left: 5px; width: 190px; height: 300px; float: left; overflow: auto; font-family: 'Lato', sans-serif;">
-				<span style=""><strong>Select CSS Attribute to see it in action:</strong><br /> </span>
+			<div style="position: relative; margin-top: 10px; padding-left: 5px; width: 100%; height: 40%;">
+
+				<div
+					id="sidebar"
+					style="position: absolute; left: 0; border: 1px solid; margin-top: 10px; padding-left: 5px; width: 40%; height: 95%; overflow: auto; font-family: 'Lato', sans-serif;">
+					<span style="position: -webkit-sticky; position: sticky; top: 0; background-color: white;"><strong>Select CSS Attribute to see it in action:</strong><br /> </span>
+				</div>
+				<div
+					id="ad"
+					style="position: absolute; right: 0; float: right; border: 1px none; width: 58%; height: 100%; overflow: auto;">
+					<script
+						async
+						src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+					<ins
+						class="adsbygoogle"
+						style="display: block"
+						data-ad-format="fluid"
+						data-ad-layout-key="-ed+6k-30-ac+ty"
+						data-ad-client="ca-pub-2639456885714031"
+						data-ad-slot="4361273497"></ins>
+					<script>
+						(adsbygoogle = window.adsbygoogle || []).push({});
+					</script>
+				</div>
 			</div>
 			<div
-				id="codepad"
-				style="border: 1px solid; margin: 0px; margin-left: 200px; margin-top: 10px; padding: 10px; height: 300px; overflow: auto;">
-				<span
-					id="codepaste"
-					style="margin: 0px; padding: 0px; white-space: pre-wrap; font-size: 14px; font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New;"></span>
+				id="buttons"
+				style="margin: 2px;">
+				<button
+					id="replayFromhash"
+					style="background-color: PaleTurquoise; cursor: pointer; margin: 2px; padding: 4px; border: none; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.19);"
+					type="button"
+					onclick="animateFromHashUrlIfPresent();"
+					value="Replay">REPLAY</button>
+				<button
+					id="stopButton"
+					style="background-color: PaleTurquoise; cursor: pointer; margin: 2px; padding: 4px; border: none; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.19);"
+					type="button"
+					value="Replay">STOP</button>
+				<select
+					id="divSelection"
+					onchange="setDemoCodeAsPerSelection()"
+					style="background-color: PaleTurquoise; cursor: pointer; margin: 2px; padding: 4px; border: none; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.19);">
+					<!-- <option value="single">Single div</option> -->
+					<option value="side-side">Two separate divs</option>
+					<option value="inside">div inside div</option>
+					<option value="three-side-side">Three separate divs</option>
+				</select>
 			</div>
 		</div>
+
+		<div
+			id="codepad"
+			style="border: 1px solid; margin: 0px; margin-top: 5px; padding: 10px; height: 300px; overflow: auto;">
+			<span
+				id="codepaste"
+				style="margin: 0px; padding: 0px; white-space: pre-wrap; font-size: 14px; font-weight: 600; font-family: Monaco, Consolas, Courier New;"></span>
+		</div>
+		<!-- </div> -->
 	</div>
 
 	<div
 		id="message"
-		align="center"
-		style="position: absolute; top: 200px; margin-left: 30%; border-radius: 10px; padding: 0% 10% 0% 10%; background-color: PowderBlue; display: inline-block; white-space: pre-wrap; font-size: 40px; font-family: 'Lato', sans-serif;">aaa</div>
+		style="position: absolute; top: 25%; left: 25%; width: 25%; border-radius: 10px; padding: 10px; background-color: PowderBlue; display: inline-block; font-family: 'Lato', sans-serif; box-shadow: 5px 10px 0px 0px #888888;">aaa</div>
 
 	<div
 		id="cssValueMessage"
