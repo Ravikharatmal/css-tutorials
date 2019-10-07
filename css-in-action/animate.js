@@ -4,12 +4,14 @@
 	var animationSpeedForValues = 2000;
 	// Message dsiplay time in mills
 	var messageDelay = 5000;
-	// Selected demo code option from dropdown.
-	var selectedDemoOptionGlobal = "side-side";
+
 	// Default value to increment
 	var defaultIncrement = 1;
 	// stop flag
 	var stopFlag = false;
+	
+	// Comment below to run on all console logs
+	// console.log = function() {};
 
 
 	/**
@@ -22,7 +24,8 @@
 		// Hide message at start
 		$('#message').hide();
 		$('#cssValueMessage').hide();
-		$('#popupmessage').hide();
+		// $('#popupmessage').hide();
+		hideToolTips()
 		// First load panel to show HTML code in UI.
 		loadCodePanel();
 			
@@ -32,7 +35,7 @@
 
 	});
 	
-	function animateFromHashUrlIfPresent(){
+	function animateFromHashUrlIfPresent(isReplay){
 		// Start animation from hash in URL
 		if(window.location.hash){
 			var hash = window.location.hash;
@@ -41,7 +44,7 @@
 				return a.id == id; 
 			});	
 			expandAnimationsArray();
-		 animate(0);
+		 animate(0,isReplay);
 		}
 	}
 	
@@ -52,7 +55,11 @@
 		if(document.getElementById("divSelection")){
 			console.log("Demo dropdown selected = " + document.getElementById("divSelection").value);
 
-			if (document.getElementById("divSelection").value == "side-side"){
+			if (document.getElementById("divSelection").value == "single"){
+				console.log("Setting single demo code");
+				$('#demodiv').html(html_demo_single_div());
+			}     
+			else if (document.getElementById("divSelection").value == "side-side"){
 				console.log("Setting side by side demo code");
 				$('#demodiv').html(html_demo_div_side_by_side());
 			}     
@@ -213,20 +220,42 @@
 		console.log('Applying attrIndex ' + attrIndex + ' styleattr '
 				+ styleattr + ' styleval ' + styleval + ' template ' + template);
 		
+		clearToolTipMessages();
+		
 		var finalStyleVal = styleval;
 		if(template){
 			finalStyleVal = resolveTemplate(template, styleval);
 			console.log("finalStyleVal = " + finalStyleVal);
-		}
-				
-		$('#' + animations[attrIndex].divname).css(styleattr, finalStyleVal);
+		}		
+		setToolTipMessage(animations[attrIndex].divname,( "<strong>"+styleattr+": "+finalStyleVal+"</strong><br/>"));
 		
-		if (animations[attrIndex].additional) {
+// var additionalPopupMessage = "";
+		if (animations[attrIndex].additional) {			
+			
 			var adddiv;
 			for (adddiv of animations[attrIndex].additional){
-				console.log("Additional div = " + adddiv.divname);
+				console.log("Additional div = " + adddiv.divname + " | " + adddiv.removeAttr);
+				
+				if(adddiv.removeAttr){
+					var remAttr;
+					for (remAttr of adddiv.removeAttr){
+						console.log(" Removing attr = " + adddiv.divname + " = " + remAttr);
+						$('#' + adddiv.divname).css(remAttr,"");
+					}
+				}
+				
 				var addcss;
 				for (addcss of adddiv.css){
+					
+// if(animations[attrIndex].divname == adddiv.divname){
+// additionalPopupMessage = additionalPopupMessage + addcss.attr + ": " +
+// addcss.val +"; ";
+// }else{
+// window['additionalPopupMessage'+adddiv.divname] =
+// window['additionalPopupMessage'+adddiv.divname] + addcss.attr + ": " +
+// addcss.val +"; ";
+// }
+					setToolTipMessage(adddiv.divname,( addcss.attr + ": " + addcss.val +"; "));
 					
 					
 					console.log("Additional css = " + addcss.attr + " = " + addcss.val);
@@ -237,19 +266,85 @@
 			}
 		}
 		
+		console.log('Applying CSS div ' + ('#' + animations[attrIndex].divname) + ' styleattr '
+				+ styleattr + ' finalStyleVal ' + finalStyleVal );
+		$('#' + animations[attrIndex].divname).css(styleattr, finalStyleVal);
+		
 		// Popup message
-		$('#popupmessage').text(styleattr+": "+finalStyleVal);
-		var offset = $('#' + animations[attrIndex].divname).offset();
-		console.log('Offset = ' + offset.top + " " + offset.left + " "
-				+ $('#' + animations[attrIndex].divname).outerHeight(false) + " " 
-				+ $('#' + animations[attrIndex].divname).outerWidth(false)	+ " " +  $('#popupmessage').outerWidth(false));
-		var popupTop = offset.top+$('#' + animations[attrIndex].divname).outerHeight(false) + 2;
-		var popupLeft = offset.left+$('#' + animations[attrIndex].divname).outerWidth(false)-$('#popupmessage').outerWidth(false);
-		console.log('Offset popupmessage = ' + popupTop + " " + popupLeft);
-		$('#popupmessage').offset({ top: popupTop, left: popupLeft});
+// $('#popupmessage').html("<strong>"+styleattr+": "+finalStyleVal+
+// "</strong><br/>"+ additionalPopupMessage);
+// var offset = $('#' + animations[attrIndex].divname).offset();
+// console.log('Offset = ' + offset.top + " " + offset.left + " "
+// + $('#' + animations[attrIndex].divname).outerHeight(false) + " "
+// + $('#' + animations[attrIndex].divname).outerWidth(false) + " " +
+// $('#popupmessage').outerWidth(false));
+// var popupTop = offset.top+$('#' +
+// animations[attrIndex].divname).outerHeight(false) + 2;
+// var popupLeft = offset.left+$('#' +
+// animations[attrIndex].divname).outerWidth(false)-$('#popupmessage').outerWidth(false);
+// console.log('Offset popupmessage = ' + popupTop + " " + popupLeft);
+// $('#popupmessage').offset({ top: popupTop, left: popupLeft});
+		
+		positionAllToopTips();
+		// setToolTipMessage(animations[attrIndex].divname,
+		// "<strong>"+styleattr+": "+finalStyleVal+ "</strong><br/>"+
+		// additionalPopupMessage);
 		
 		
 		loadCodePanel(attrIndex, styleattr, finalStyleVal);
+	}
+	
+	function setToolTipMessage(divname, message){
+		console.log("setToolTipMessage - " + divname  + " " + message);
+//		if(append){
+			var existingMessage = $('#popupmessage'+divname).html();
+			console.log("setToolTipMessage existingMessage " +divname + " "+ existingMessage);
+			$('#popupmessage'+divname).html(existingMessage+message);
+//		}else{
+//			$('#popupmessage'+divname).html(message);
+//		}
+	}
+	
+	function positionToolTipMessage(divname){
+		// Popup message
+		
+		var offset = $('#' + divname).offset();
+		if(offset){
+		var popupMessageWidth = ($('#popupmessage'+divname).outerWidth(false)||0);
+		console.log('Offset = ' + divname + ' ' + offset.top + " " + offset.left + " "
+				+ $('#' + divname).outerHeight(false) + " " 
+				+ $('#' + divname).outerWidth(false)	+ " " +  popupMessageWidth);
+		console.log($('#popupmessage'+divname).outerWidth(false));
+		var popupTop = offset.top+$('#' + divname).outerHeight(false) + 2;
+		var popupLeft = offset.left+$('#' + divname).outerWidth(false)-popupMessageWidth;
+		console.log('Offset popupmessage = '+ ' ' + divname +" " + popupTop + " " + popupLeft);
+		$('#popupmessage'+divname).offset({ top: popupTop, left: popupLeft});
+	}
+	}
+	
+	function positionAllToopTips(){
+		positionToolTipMessage('firstdiv');
+		positionToolTipMessage('seconddiv');
+		positionToolTipMessage('thirddiv');
+	}
+	
+	function hideToolTips(){
+		clearToolTipMessages();
+		$('#popupmessagefirstdiv').hide();
+		$('#popupmessageseconddiv').hide();
+		$('#popupmessagethirddiv').hide();
+	}
+	
+	function clearToolTipMessages(){
+		$('#popupmessagefirstdiv').text(' ');
+		$('#popupmessageseconddiv').text(' ');
+		$('#popupmessagethirddiv').text(' ');
+	}
+	
+	function showToolTips(){
+		$('#popupmessagefirstdiv').show();
+		$('#popupmessageseconddiv').show();
+		$('#popupmessagethirddiv').show();
 	}
 	
 	function resolveTemplate(template, val){
@@ -319,6 +414,14 @@
 							newAnim.max = change.max;
 							newAnim.animationSpeed = change.animationSpeed;
 							newAnim.increment = change.increment;
+							
+							// If specific additional property given then
+							// override
+							// global with this specific.
+							if(change.additional){
+								delete newAnim.additional;
+								newAnim.additional = change.additional;
+							}
 
 							tempAnimatons[tempIndex] = newAnim;
 							tempIndex++;
@@ -341,9 +444,15 @@
 	/**
 	 * Main animation method.
 	 */
-	function animate(attrIndex) {		
+	function animate(attrIndex, isReplay) {		
 		
 		if (animations[attrIndex] && !isStop()) {	
+			
+			if(animations[attrIndex] && !isReplay){
+				console.log("Default demo code = " + animations[attrIndex].defaultDemo);
+				$("#divSelection").val(animations[attrIndex].defaultDemo);
+				setDemoCodeAsPerSelection();
+			}
 			
 			// Display description message for animation about to start.
 			var message = prepareMessageFlash(attrIndex);
@@ -356,7 +465,7 @@
 			// Keep showing message for some time & then start animation.
 			setTimeout(function() {
 				$('#message').hide();
-				animateStart(attrIndex);
+				animateStart(attrIndex, isReplay);
 			}, messageDelay);
 			
 		} else {
@@ -370,48 +479,50 @@
 		var message = animations[attrIndex].title;
 		message = message + " - " + animations[attrIndex].attr;
 		message = message + (animations[attrIndex].unit ? ( " (" + animations[attrIndex].unit + ")") : "");
-		return html_flash_screen(animations[attrIndex].title, animations[attrIndex].desc, animations[attrIndex].attr, animations[attrIndex].unit);
+		return html_flash_screen(animations[attrIndex].divname,animations[attrIndex].title, animations[attrIndex].desc, animations[attrIndex].attr, animations[attrIndex].unit);
 	}
 	
-	function animateStart(attrIndex){
-		$('#popupmessage').show();
+	function animateStart(attrIndex, isReplay){
+		// $('#popupmessage').show();
+		showToolTips();
 		var styleattr = animations[attrIndex].attr;
 		if (styleattr) {
 			console.log("start changing up " + styleattr);
 			if(animations[attrIndex].values){
-				animateValues(attrIndex, 0);
+				animateValues(attrIndex, 0, isReplay);
 			} else{
-			animateup(attrIndex, animations[attrIndex].min);
+			animateup(attrIndex, animations[attrIndex].min, isReplay);
 			}
 		} else {
-			$('#popupmessage').hide();
+			// $('#popupmessage').hide();
+			hideToolTips();
 			console.log("Completed !");
 		}
 	}
 	
-	function animateValues(attrIndex, cssValIndex){
+	function animateValues(attrIndex, cssValIndex, isReplay){
 		console.log("CSS VAL animate = " + animations[attrIndex].values[cssValIndex]);
 			if(animations[attrIndex].values[cssValIndex] && !isStop()){
-			setTimeout(function() {
 				var styleattr = animations[attrIndex].attr;
 				var cssVal = animations[attrIndex].values[cssValIndex];
 				
-// $('#cssValueMessage').show();
-// $('#cssValueMessage').text(styleattr + " = " + cssVal);
-// console.log("CSS Val message = " + styleattr + " = " + cssVal);
-				
 				applyCSS(attrIndex, styleattr, cssVal);
-				animateValues(attrIndex, cssValIndex+1)
-			}, animationSpeedForValues);
+				setTimeout(function() {	// $('#cssValueMessage').show();
+					// $('#cssValueMessage').text(styleattr + " = " + cssVal);
+					// console.log("CSS Val message = " + styleattr + " = " +
+					// cssVal);
+				animateValues(attrIndex, cssValIndex+1, isReplay)
+				}, animationSpeedForValues);
 			} else{
 				
 				setTimeout(function() {
 					$('#cssValueMessage').hide();
-					$('#popupmessage').text('');
-					$('#popupmessage').hide();
+// $('#popupmessage').text('');
+// $('#popupmessage').hide();
+					hideToolTips();
 					console.log("Completed values !");
 					resetStyling();
-					animate(attrIndex + 1);
+					animate(attrIndex + 1, isReplay);
 				}, animationSpeedForValues);				
 			}
 			
@@ -420,7 +531,7 @@
 	/**
 	 * Animate with values growing up by 1 each time.
 	 */
-	function animateup(attrIndex, start) {
+	function animateup(attrIndex, start, isReplay) {
 		
 		if(isStop()){
 			resetStop();
@@ -441,20 +552,20 @@
 				var styleval = (currentStart + animations[attrIndex].unit) + animations[attrIndex].suffix;
 				console.log("changing up " + styleattr + " to " + styleval);
 				applyCSS(attrIndex, styleattr, styleval, animations[attrIndex].template);
-				animateup(attrIndex, currentStart + currentIncrement);
+				animateup(attrIndex, currentStart + currentIncrement, isReplay);
 			}, currentAnimationSpeed);
 		} else {
 			var styleattr = animations[attrIndex].attr;
 			console.log("start changing down " + styleattr);
 			animatedown(attrIndex, animations[attrIndex].max,
-					animations[attrIndex].min);
+					animations[attrIndex].min, isReplay);
 		}
 	}
 
 	/**
 	 * Animate with values reducing down by 1 each time.
 	 */
-	function animatedown(attrIndex, start, min) {
+	function animatedown(attrIndex, start, min,isReplay) {
 		if(isStop()){
 			resetStop();
 			return;
@@ -472,13 +583,14 @@
 				var styleval = (currentStart + animations[attrIndex].unit) + animations[attrIndex].suffix;
 				console.log("changing down " + styleattr + " to " + styleval);
 				applyCSS(attrIndex, styleattr, styleval, animations[attrIndex].template);
-				animatedown(attrIndex, currentStart - currentIncrement, min);
+				animatedown(attrIndex, currentStart - currentIncrement, min, isReplay);
 			}, currentAnimationSpeed);
 		} else {
-			$('#popupmessage').text('');
-			$('#popupmessage').hide();
+// $('#popupmessage').text('');
+// $('#popupmessage').hide();
+			hideToolTips();
 			resetStyling();
-			animate(attrIndex + 1);
+			animate(attrIndex + 1, isReplay);
 		}
 	}
 	
@@ -521,8 +633,8 @@
 	}
 	
 	function html_code_header(title,desc){
-		return `<font color='green'><br/><strong>Attribute(s): </strong>${title}&emsp;
-				<br/><strong>Change: </strong>${desc}</font><br/>`
+		return `<font color='green'><br/><strong>CSS Property(s): </strong>${title}&emsp;
+				<br/><strong>In Action: </strong>${desc}</font><br/>`
 	}
 	
 	function html_demo_single_div(){
@@ -591,7 +703,7 @@ This is the content of the FIRST-DIV. This is the content of the FIRST-DIV. This
 		return `<strong><font color='blue'>${code}</font></strong>`;
 	}
 	
-	function html_flash_screen(title,desc, attr, unit){
-		return `<h2 align="center">${title}</h2><h5 align="center">(${desc})</h5><span style="font-size:20"><strong>CSS Property:</strong> ${attr} ${unit ? '<br/><strong>Unit: </strong>' + unit : ''}</span>`;
+	function html_flash_screen(divname,title,desc, attr, unit){
+		return `<h2 align="center">${title}</h2><!--<h5 align="center">(${desc})</h5>--><span style="font-size:20"><strong>CSS Property:</strong> ${attr} ${unit ? '<br/><strong>Unit: </strong>' + unit : ''}<br/><strong>Div to apply:</strong> ${divname}</span>`;
 	}
 	

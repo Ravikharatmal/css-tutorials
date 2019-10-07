@@ -109,7 +109,9 @@
 				divname : "seconddiv",
 				id : "padding",
 				title : "PADDING",
-				desc : "Try different values of padding of second div",
+				desc : "Try different variations and values of padding of second div.",
+				def : "Space between content and enclosing element boundary like div",
+				defaultDemo : "side-side",
 				suffix : "",
 				changes : [
 						{
@@ -137,13 +139,27 @@
 							min : 0,
 							max : 10,
 							animationSpeed : 200
+						}, {
+							type : "increment",
+							attr : "padding",
+							values : [ 'inherit' ],
+							animationSpeed : 500,
+							additional : [ {
+								divname : "firstdiv",
+								css : [ {
+									attr : "padding",
+									val : "50px"
+								} ]
+							} ]
 						}, ]
 			},
 			{
 				divname : "seconddiv",
 				id : "margin",
 				title : "MARGIN",
-				desc : "Try different values of margin of second div",
+				desc : "Try different variations and values of margin of second div.",
+				def : "Space outside & around element like div",
+				defaultDemo : "side-side",
 				suffix : "",
 				changes : [
 						{
@@ -170,7 +186,7 @@
 							unit : "",
 							min : 0,
 							max : 10,
-							animationSpeed : 200
+							animationSpeed : 400
 						},
 						{
 							type : "values",
@@ -189,22 +205,52 @@
 			},
 			{
 				divname : "seconddiv",
-				id : "border_style",
+				id : "border",
 				title : "BORDER",
 				desc : "Try different values of border style of second div",
-				suffix : " solid",
+				defaultDemo : "side-side",
+				suffix : "",
 				changes : [
+						{
+							type : "increment",
+							attr : "border",
+							template : "${val} solid red",
+							sideSpecific : true,
+							unit : "px",
+							min : 1,
+							max : 20
+						},
+						{
+							type : "increment",
+							attr : "border",
+							template : "${val} solid red",
+							unit : "cm",
+							min : 0,
+							max : 2,
+							animationSpeed : 100,
+							increment : 0.1
+						},
 						{
 							type : "values",
 							attr : "border-style",
 							values : [ 'solid', 'dotted', 'dashed', 'double',
 									'groove', 'ridge', 'inset', 'outset',
 									'none', 'hidden' ],
+							additional : [ {
+								divname : "seconddiv",
+								css : [ {
+									attr : "border-color",
+									val : "red"
+								}, {
+									attr : "border-width",
+									val : "15px"
+								} ]
+							} ]
 						},
 						{
 							type : "values",
 							attr : "border-color",
-							values : [ 'red', 'green', 'yellow', '#FF4500',
+							values : [ 'red', 'green', 'yellow', '#DA70D6',
 									'rgb(255,222,173)' ],
 							additional : [ {
 								divname : "seconddiv",
@@ -213,74 +259,115 @@
 									val : "15px"
 								} ]
 							} ]
+						}, {
+							type : "increment",
+							attr : "border-radius",
+							unit : "px",
+							min : 0,
+							max : 50,
+							animationSpeed : 100,
+							additional : [ {
+								divname : "seconddiv",
+								css : [ {
+									attr : "border-color",
+									val : "red"
+								}, {
+									attr : "border-width",
+									val : "4px"
+								}, {
+									attr : "border-style",
+									val : "solid"
+								}, ],
+							//removeAttr : [ "border" ]
+							} ]
 						} ],
-				additional : [ {
-					divname : "seconddiv",
-					css : [ {
-						attr : "border-color",
-						val : "red"
-					}, {
-						attr : "border-width",
-						val : "15px"
-					} ]
-				} ]
-			},
-			{
-				divname : "seconddiv",
-				id : "border_size",
-				title : "BORDER (size)",
-				desc : "Try different values of border size of second div",
-				suffix : " solid",
-				changes : [ {
-					type : "increment",
-					attr : "border",
-					sideSpecific : true,
-					unit : "px",
-					min : 1,
-					max : 20
-				}, {
-					type : "increment",
-					attr : "border",
-					unit : "cm",
-					min : 0,
-					max : 2,
-					animationSpeed : 100,
-					increment : 0.1
-				} ],
-				additional : [ {
-					divname : "seconddiv",
-					css : [ {
-						attr : "border-color",
-						val : "red"
-					}, {
-						attr : "border-style",
-						val : "solid"
-					} ]
-				} ]
+
 			},
 			{
 				divname : "seconddiv",
 				id : "outline",
 				title : "OUTLINE",
 				desc : "Try different values of outline of second div",
-				suffix : " solid",
-				changes : [ {
-					type : "increment",
-					attr : "outline",
-					unit : "px",
-					min : 1,
-					max : 20
-				} ],
-				additional : [ {
-					divname : "seconddiv",
-					css : [ {
-						attr : "border",
-						val : "5px solid"
-					}, {
-						attr : "border-color",
-						val : "red"
-					} ]
-				} ]
+				defaultDemo : "side-side",
+				suffix : "",
+				changes : [
+						{
+							type : "increment",
+							attr : "outline",
+							template : "${val} solid grey",
+							unit : "px",
+							min : 1,
+							max : 20,
+							additional : [ {
+								divname : "seconddiv",
+								css : [ {
+									attr : "margin",
+									val : "100px"
+								} ]
+							} ]
+						},
+						{
+							type : "values",
+							attr : "outline-style",
+							values : [ 'solid', 'dotted', 'dashed', 'double',
+									'groove', 'ridge', 'inset', 'outset',
+									'none', 'hidden' ],
+							additional : [ {
+								divname : "seconddiv",
+								css : [ {
+									attr : "outline-color",
+									val : "grey"
+								}, {
+									attr : "outline-width",
+									val : "15px"
+								}, {
+									attr : "margin",
+									val : "100px"
+								} ]
+							} ]
+						},
+						{
+							type : "values",
+							attr : "outline-color",
+							values : [ 'purple', 'green', 'yellow', '#DA70D6',
+									'rgb(255,222,173)' ],
+							additional : [ {
+								divname : "seconddiv",
+								css : [ {
+									attr : "outline-width",
+									val : "15px"
+								}, {
+									attr : "outline-style",
+									val : "solid"
+								}, {
+									attr : "margin",
+									val : "100px"
+								} ]
+							} ]
+						}, {
+							type : "values",
+							attr : "outline-offset",
+							unit : "px",
+							min : 1,
+							max : 20,
+							animationSpeed : 200,
+							additional : [ {
+								divname : "seconddiv",
+								css : [ {
+									attr : "outline-color",
+									val : "grey"
+								}, {
+									attr : "outline-width",
+									val : "15px"
+								}, {
+									attr : "outline-style",
+									val : "solid"
+								}, {
+									attr : "margin",
+									val : "100px"
+								} ]
+							} ]
+						} ]
 			},
 			/**
 			 * Div below div
@@ -290,6 +377,7 @@
 				id : "width",
 				title : "WIDTH",
 				desc : "Try different values of width of first div",
+				defaultDemo : "side-side",
 				suffix : "",
 				changes : [ {
 					type : "increment",
@@ -319,6 +407,7 @@
 				id : "height",
 				title : "HEIGHT",
 				desc : "Try different values of height of first div",
+				defaultDemo : "side-side",
 				suffix : "",
 				changes : [ {
 					type : "increment",
@@ -348,41 +437,204 @@
 				id : "background",
 				title : "BACKGROUND",
 				desc : "Try different background properties and values",
+				defaultDemo : "single",
 				suffix : "",
 				changes : [
 						{
 							type : "values",
 							attr : "background-color",
 							values : [ 'green', 'yellow', '#FF4500',
-									'rgb(255,222,173)' ]
-						}, {
+									'rgb(255,222,173)' ],
+							additional : [ {
+								divname : "firstdiv",
+								css : [ {
+									attr : "width",
+									val : "400px"
+								}, {
+									attr : "height",
+									val : "400px"
+								} ]
+							}, {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						},
+						{
 							type : "values",
 							attr : "background-image",
-							values : [ 'url("somebackground-small.jpg")' ]
-						} ],
-				additional : [ {
-					divname : "firstdiv",
-					css : [ {
-						attr : "width",
-						val : "400px"
-					}, {
-						attr : "height",
-						val : "400px"
-					} ]
-				}, {
-					divname : "seconddiv",
-					css : [ {
-						attr : "width",
-						val : "100px"
-					} ]
-				} ]
+							values : [ 'url("somebackground-small.jpg")' ],
+							additional : [ {
+								divname : "firstdiv",
+								css : [ {
+									attr : "width",
+									val : "400px"
+								}, {
+									attr : "height",
+									val : "400px"
+								} ]
+							}, {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						},
+						{
+							type : "values",
+							attr : "background-repeat",
+							values : [ 'no-repeat', 'repeat-x', 'repeat-y',
+									'repeat' ],
+							additional : [ {
+								divname : "firstdiv",
+								css : [ {
+									attr : "width",
+									val : "600px"
+								}, {
+									attr : "height",
+									val : "600px"
+								}, {
+									attr : "background-image",
+									val : "url('somebackground-small.jpg')"
+								} ]
+							}, {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						},
+						{
+							type : "increment",
+							attr : "opacity",
+							unit : "",
+							min : 0,
+							max : 1,
+							animationSpeed : 500,
+							increment : 0.1,
+							additional : [ {
+								divname : "firstdiv",
+								css : [ {
+									attr : "width",
+									val : "600px"
+								}, {
+									attr : "height",
+									val : "600px"
+								}, {
+									attr : "background-image",
+									val : "url('somebackground-small.jpg')"
+								} ]
+							}, {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						},
+						{
+							type : "values",
+							attr : "background-position",
+							values : [ 'left top', 'right top', 'right bottom',
+									'left bottom', 'left', 'right', 'top',
+									'bottom', 'center' ],
+							additional : [ {
+								divname : "firstdiv",
+								css : [ {
+									attr : "width",
+									val : "600px"
+								}, {
+									attr : "height",
+									val : "600px"
+								}, {
+									attr : "background-image",
+									val : "url('somebackground-small.jpg')"
+								}, {
+									attr : "background-repeat",
+									val : "no-repeat"
+								} ]
+							}, {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						}, {
+							type : "increment",
+							attr : "background-position",
+							unit : "%",
+							min : 0,
+							max : 60,
+							animationSpeed : 500,
+							increment : 10,
+							additional : [ {
+								divname : "firstdiv",
+								css : [ {
+									attr : "width",
+									val : "600px"
+								}, {
+									attr : "height",
+									val : "600px"
+								}, {
+									attr : "background-image",
+									val : "url('somebackground-small.jpg')"
+								}, {
+									attr : "background-repeat",
+									val : "no-repeat"
+								} ]
+							}, {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						}, {
+							type : "increment",
+							attr : "background-position",
+							unit : "px",
+							min : 0,
+							max : 50,
+							animationSpeed : 500,
+							increment : 10,
+							additional : [ {
+								divname : "firstdiv",
+								css : [ {
+									attr : "width",
+									val : "600px"
+								}, {
+									attr : "height",
+									val : "600px"
+								}, {
+									attr : "background-image",
+									val : "url('somebackground-small.jpg')"
+								}, {
+									attr : "background-repeat",
+									val : "no-repeat"
+								} ]
+							}, {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						}
+
+				],
+
 			},
-			{
+			/* {
 				divname : "firstdiv",
 				id : "backgroundimage",
 				title : "BACKGROUND IMAGE",
 				desc : "Try different background image properties and values",
-				suffix : "",
+				defaultDemo: "side-side",suffix : "",
 				changes : [ {
 					type : "values",
 					attr : "background-repeat",
@@ -421,7 +673,7 @@
 				id : "backgroundposition",
 				title : "BACKGROUND POSITION",
 				desc : "Try different background image positions",
-				suffix : "",
+				defaultDemo: "side-side",suffix : "",
 				changes : [
 						{
 							type : "values",
@@ -468,12 +720,13 @@
 						val : "100px"
 					} ]
 				} ]
-			},
+			}, */
 			{
 				divname : "firstdiv",
 				id : "float",
 				title : "FLOAT",
 				desc : "Try different values of float of first div | Both div fixed width",
+				defaultDemo : "side-side",
 				suffix : "",
 				changes : [ {
 					type : "values",
@@ -499,6 +752,7 @@
 				id : "position-relative",
 				title : "POSITION (relative)",
 				desc : "Relative position with different placing",
+				defaultDemo : "side-side",
 				suffix : "",
 				changes : [ {
 					type : "increment",
@@ -547,6 +801,7 @@
 				id : "position-absolute",
 				title : "POSITION (absolute)",
 				desc : "Second div absolute & first div relative with different placements",
+				defaultDemo : "side-side",
 				suffix : "",
 				changes : [ {
 					type : "increment",
@@ -601,6 +856,7 @@
 				id : "overflow",
 				title : "OVERFLOW",
 				desc : "Change overflow values of first div | Both div fixed width",
+				defaultDemo : "single",
 				suffix : "",
 				changes : [ {
 					type : "values",
@@ -632,6 +888,7 @@
 				id : "display",
 				title : "DISPLAY",
 				desc : "Change display values of second div | Both div fixed width",
+				defaultDemo : "side-side",
 				suffix : "",
 				changes : [ {
 					type : "values",
@@ -660,6 +917,7 @@
 				id : "z-index",
 				title : "Z INDEX",
 				desc : "Try different values of z-index",
+				defaultDemo : "side-side",
 				suffix : "",
 				changes : [ {
 					type : "increment",
@@ -730,6 +988,7 @@
 				id : "font",
 				title : "FONTS",
 				desc : "Try different font properties",
+				defaultDemo : "single",
 				suffix : "",
 				changes : [
 						{
@@ -785,36 +1044,160 @@
 			},
 			{
 				divname : "firstdiv",
-				id : "textalign",
-				title : "TEXT ALIGN",
-				desc : "Change text alignment",
+				id : "text",
+				title : "TEXT",
+				desc : "Try different properties, variations and values of text styling of first div.",
+				defaultDemo : "single",
 				suffix : "",
-				changes : [ {
-					type : "values",
-					attr : "text-align",
-					values : [ 'left', 'right', 'center', 'justify' ],
-				} ],
-				additional : [ {
-					divname : "firstdiv",
-					css : [ {
-						attr : "width",
-						val : "200px"
-					} ]
-				}, {
-					divname : "seconddiv",
-					css : [ {
-						attr : "width",
-						val : "100px"
-					} ]
-				} ]
+				changes : [
+						{
+							type : "values",
+							attr : "text-align",
+							values : [ 'left', 'right', 'center', 'justify' ],
+							additional : [ {
+								divname : "firstdiv",
+								css : [ {
+									attr : "width",
+									val : "200px"
+								} ]
+							}, {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						},
+						{
+							type : "values",
+							attr : "text-decoration",
+							values : [ 'overline', 'line-through', 'underline',
+									'none' ],
+							additional : [ {
+								divname : "firstdiv",
+								css : [ {
+									attr : "border",
+									val : "0px"
+								} ]
+							}, {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						},
+						{
+							type : "values",
+							attr : "text-transform",
+							values : [ 'uppercase', 'lowercase', 'capitalize' ],
+							additional : [ {
+								divname : "firstdiv",
+								css : [ {
+									attr : "border",
+									val : "0px"
+								} ]
+							}, {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						},
+						{
+							type : "increment",
+							attr : "text-indent",
+							unit : "px",
+							min : 100,
+							max : 150,
+							additional : [ {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						},
+						{
+							type : "increment",
+							attr : "letter-spacing",
+							unit : "px",
+							min : -10,
+							max : 10,
+							animationSpeed : 500,
+							additional : [ {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						},
+						{
+							type : "increment",
+							attr : "line-height",
+							unit : "",
+							min : 0,
+							max : 3,
+							animationSpeed : 500,
+							increment : 0.1,
+							additional : [ {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						},
+						{
+							type : "increment",
+							attr : "word-spacing",
+							unit : "px",
+							min : -10,
+							max : 10,
+							animationSpeed : 300,
+							additional : [ {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						},
+						{
+							type : "values",
+							attr : "text-shadow",
+							values : [ '3px 2px red', '10px 5px cyan',
+									'30px 20px yellow' ],
+							additional : [ {
+								divname : "firstdiv",
+								css : [ {
+									attr : "border",
+									val : "0px"
+								}, {
+									attr : "font-size",
+									val : "30"
+								} ]
+							}, {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						}
+
+				],
+
 			},
 
-			{
+			/* {
 				divname : "firstdiv",
 				id : "textdecoration",
 				title : "TEXT DECORATION",
 				desc : "Change text decoration",
-				suffix : "",
+				defaultDemo: "side-side",suffix : "",
 				changes : [ {
 					type : "values",
 					attr : "text-decoration",
@@ -839,7 +1222,7 @@
 				id : "texttransform",
 				title : "TEXT TRANSFORM",
 				desc : "Transform text",
-				suffix : "",
+				defaultDemo: "side-side",suffix : "",
 				changes : [ {
 					type : "values",
 					attr : "text-transform",
@@ -864,7 +1247,7 @@
 				id : "textindent",
 				title : "TEXT INDENT",
 				desc : "Indent text",
-				suffix : "",
+				defaultDemo: "side-side",suffix : "",
 				changes : [ {
 					type : "increment",
 					attr : "text-indent",
@@ -879,7 +1262,7 @@
 				id : "letterspacing",
 				title : "LETTER SPACING",
 				desc : "Spacing between letters",
-				suffix : "",
+				defaultDemo: "side-side",suffix : "",
 				changes : [ {
 					type : "increment",
 					attr : "letter-spacing",
@@ -895,7 +1278,7 @@
 				id : "lineheight",
 				title : "LINE HEIGHT",
 				desc : "Height between lines",
-				suffix : "",
+				defaultDemo: "side-side",suffix : "",
 				changes : [ {
 					type : "increment",
 					attr : "line-height",
@@ -912,7 +1295,7 @@
 				id : "wordspacing",
 				title : "WORD SPACING",
 				desc : "Spacing between words",
-				suffix : "",
+				defaultDemo: "side-side",suffix : "",
 				changes : [ {
 					type : "increment",
 					attr : "word-spacing",
@@ -928,7 +1311,7 @@
 				id : "textshadow",
 				title : "TEXT SHADOW",
 				desc : "text-shadow",
-				suffix : "",
+				defaultDemo: "side-side",suffix : "",
 				changes : [ {
 					type : "values",
 					attr : "text-shadow",
@@ -948,11 +1331,12 @@
 						val : "100px"
 					} ]
 				} ]
-			}, {
+			}, */{
 				divname : "firstdiv",
 				id : "color",
 				title : "COLOR",
 				desc : "Try different ways of color definitions.",
+				defaultDemo : "single",
 				suffix : "",
 				changes : [ {
 					type : "increment",
@@ -1050,8 +1434,17 @@
 		style="position: relative; width: 68%; height: 100%; border: 1px solid grey; outline: 10px solid lightgrey; overflow: auto;"></div>
 
 	<p
-		id="popupmessage"
-		style="background-color: rgba(255, 255, 0, 1); color: rgba(139, 69, 19, 0.7); display: inline-block; padding: 4px; margin: 2px; border-radius: 8px;"></p>
+		id="popupmessagefirstdiv"
+		style="background-color: rgba(255, 255, 0, 0.8); color: rgba(139, 69, 19, 1); display: inline-block; padding: 4px; margin: 2px; border-radius: 8px; max-width: 200px; z-index: 100;"></p>
+
+	<p
+		id="popupmessageseconddiv"
+		style="background-color: rgba(255, 255, 0, 0.8); color: rgba(139, 69, 19, 1); display: inline-block; padding: 4px; margin: 2px; border-radius: 8px; max-width: 200px; z-index: 100;"></p>
+
+	<p
+		id="popupmessagethirddiv"
+		style="background-color: rgba(255, 255, 0, 0.8); color: rgba(139, 69, 19, 1); display: inline-block; padding: 4px; margin: 2px; border-radius: 8px; max-width: 200px; z-index: 100;"></p>
+
 
 	<div
 		id="code"
@@ -1068,14 +1461,14 @@
 				</h2>
 
 			</div>
-			<div style="margin: 0px; padding: 0px; position: absolute; right: 0;">
+			<div style="margin: 0px; padding: 0px; position: absolute; right: 0; z-index: 100; max-width: 120px;">
 				<a
 					href="http://itsallbinary.com/"
 					target="_blank"
 					style="display: inline-block; cursor: pointer;"><img
 					src="http://itsallbinary.com/wp-content/uploads/2017/03/final_itsallbinary.gif"
 					alt="Its All Binary"
-					style="margin: 0px; height: auto; width: 50%; float: right; z-index: 1"></img> </a>
+					style="margin: 0px; height: auto; width: 120px; float: right;"></img> </a>
 
 			</div>
 		</div>
@@ -1086,7 +1479,7 @@
 			style="margin: 0px; padding: 0px; margin-top: 5px; position: relative;">
 			<div
 				id="codeheader"
-				style="position: relative; margin: 0px; margin-top: 20px; padding: 0px; height: 60px; font-size: 16px;"></div>
+				style="position: relative; margin: 0px; margin-top: 20px; padding: 0px; height: 60px; font-size: 16px; z-index: 1;"></div>
 
 			<!-- <div style="margin: 0px; margin-top: 20px; padding: 0px;">
 				<input
@@ -1129,7 +1522,7 @@
 					id="replayFromhash"
 					style="background-color: PaleTurquoise; cursor: pointer; margin: 2px; padding: 4px; border: none; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.19);"
 					type="button"
-					onclick="animateFromHashUrlIfPresent();"
+					onclick="animateFromHashUrlIfPresent(true);"
 					value="Replay">REPLAY</button>
 				<button
 					id="stopButton"
@@ -1140,7 +1533,7 @@
 					id="divSelection"
 					onchange="setDemoCodeAsPerSelection()"
 					style="background-color: PaleTurquoise; cursor: pointer; margin: 2px; padding: 4px; border: none; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.19);">
-					<!-- <option value="single">Single div</option> -->
+					<option value="single">Single div</option>
 					<option value="side-side">Two separate divs</option>
 					<option value="inside">div inside div</option>
 					<option value="three-side-side">Three separate divs</option>
