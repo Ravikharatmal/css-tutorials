@@ -141,9 +141,7 @@
 		var codeString = $('#demodiv').html();
 		
 		var escapedCodeString = $("<div>").text(codeString).html();
-		
-		// console.log(escapedCodeString);
-		
+				
 		console.log("Highlight css = " + styleattr + " = " + styleval);
 		escapedCodeString = highlightCSS(escapedCodeString, styleattr, styleval, true);
 		
@@ -227,9 +225,8 @@
 			finalStyleVal = resolveTemplate(template, styleval);
 			console.log("finalStyleVal = " + finalStyleVal);
 		}		
-		setToolTipMessage(animations[attrIndex].divname,( "<strong>"+styleattr+": "+finalStyleVal+"</strong><br/>"));
+		setAndShowToolTipMessage(animations[attrIndex].divname,( "<strong>"+styleattr+": "+finalStyleVal+"</strong><br/>"));
 		
-// var additionalPopupMessage = "";
 		if (animations[attrIndex].additional) {			
 			
 			var adddiv;
@@ -246,16 +243,8 @@
 				
 				var addcss;
 				for (addcss of adddiv.css){
-					
-// if(animations[attrIndex].divname == adddiv.divname){
-// additionalPopupMessage = additionalPopupMessage + addcss.attr + ": " +
-// addcss.val +"; ";
-// }else{
-// window['additionalPopupMessage'+adddiv.divname] =
-// window['additionalPopupMessage'+adddiv.divname] + addcss.attr + ": " +
-// addcss.val +"; ";
-// }
-					setToolTipMessage(adddiv.divname,( addcss.attr + ": " + addcss.val +"; "));
+
+					setAndShowToolTipMessage(adddiv.divname,( addcss.attr + ": " + addcss.val +"; "));
 					
 					
 					console.log("Additional css = " + addcss.attr + " = " + addcss.val);
@@ -270,39 +259,17 @@
 				+ styleattr + ' finalStyleVal ' + finalStyleVal );
 		$('#' + animations[attrIndex].divname).css(styleattr, finalStyleVal);
 		
-		// Popup message
-// $('#popupmessage').html("<strong>"+styleattr+": "+finalStyleVal+
-// "</strong><br/>"+ additionalPopupMessage);
-// var offset = $('#' + animations[attrIndex].divname).offset();
-// console.log('Offset = ' + offset.top + " " + offset.left + " "
-// + $('#' + animations[attrIndex].divname).outerHeight(false) + " "
-// + $('#' + animations[attrIndex].divname).outerWidth(false) + " " +
-// $('#popupmessage').outerWidth(false));
-// var popupTop = offset.top+$('#' +
-// animations[attrIndex].divname).outerHeight(false) + 2;
-// var popupLeft = offset.left+$('#' +
-// animations[attrIndex].divname).outerWidth(false)-$('#popupmessage').outerWidth(false);
-// console.log('Offset popupmessage = ' + popupTop + " " + popupLeft);
-// $('#popupmessage').offset({ top: popupTop, left: popupLeft});
-		
 		positionAllToopTips();
-		// setToolTipMessage(animations[attrIndex].divname,
-		// "<strong>"+styleattr+": "+finalStyleVal+ "</strong><br/>"+
-		// additionalPopupMessage);
-		
-		
+
 		loadCodePanel(attrIndex, styleattr, finalStyleVal);
 	}
 	
-	function setToolTipMessage(divname, message){
+	function setAndShowToolTipMessage(divname, message){
 		console.log("setToolTipMessage - " + divname  + " " + message);
-//		if(append){
 			var existingMessage = $('#popupmessage'+divname).html();
 			console.log("setToolTipMessage existingMessage " +divname + " "+ existingMessage);
 			$('#popupmessage'+divname).html(existingMessage+message);
-//		}else{
-//			$('#popupmessage'+divname).html(message);
-//		}
+			$('#popupmessage'+divname).show();
 	}
 	
 	function positionToolTipMessage(divname){
@@ -341,12 +308,6 @@
 		$('#popupmessagethirddiv').text(' ');
 	}
 	
-	function showToolTips(){
-		$('#popupmessagefirstdiv').show();
-		$('#popupmessageseconddiv').show();
-		$('#popupmessagethirddiv').show();
-	}
-	
 	function resolveTemplate(template, val){
 		return eval('`'+template+'`');
 	}
@@ -365,7 +326,6 @@
 	 */
 	function expandAnimationsArray(){
 		var sideVariations = ['left','right','top','bottom'];
-	// var unitVariations = ['px','%'];
 		var tempAnimatons = [];
 		var tempIndex = 0;
 		for(var i=0;i< animations.length; i++){			
@@ -428,14 +388,7 @@
 						}
 					}
 				}
-			}/*
-				 * else{
-				 * 
-				 * tempAnimatons[tempIndex] = $.extend(true, {}, animations[i]);
-				 * delete tempAnimatons[tempIndex].changes;
-				 * 
-				 * tempIndex++; }
-				 */
+			}
 		}
 		console.log(JSON.stringify(tempAnimatons))
 		animations = tempAnimatons;
@@ -483,8 +436,6 @@
 	}
 	
 	function animateStart(attrIndex, isReplay){
-		// $('#popupmessage').show();
-		showToolTips();
 		var styleattr = animations[attrIndex].attr;
 		if (styleattr) {
 			console.log("start changing up " + styleattr);
@@ -494,7 +445,6 @@
 			animateup(attrIndex, animations[attrIndex].min, isReplay);
 			}
 		} else {
-			// $('#popupmessage').hide();
 			hideToolTips();
 			console.log("Completed !");
 		}
@@ -508,17 +458,14 @@
 				
 				applyCSS(attrIndex, styleattr, cssVal);
 				setTimeout(function() {	// $('#cssValueMessage').show();
-					// $('#cssValueMessage').text(styleattr + " = " + cssVal);
-					// console.log("CSS Val message = " + styleattr + " = " +
-					// cssVal);
+
 				animateValues(attrIndex, cssValIndex+1, isReplay)
 				}, animationSpeedForValues);
 			} else{
 				
 				setTimeout(function() {
 					$('#cssValueMessage').hide();
-// $('#popupmessage').text('');
-// $('#popupmessage').hide();
+
 					hideToolTips();
 					console.log("Completed values !");
 					resetStyling();
@@ -586,8 +533,7 @@
 				animatedown(attrIndex, currentStart - currentIncrement, min, isReplay);
 			}, currentAnimationSpeed);
 		} else {
-// $('#popupmessage').text('');
-// $('#popupmessage').hide();
+
 			hideToolTips();
 			resetStyling();
 			animate(attrIndex + 1, isReplay);
