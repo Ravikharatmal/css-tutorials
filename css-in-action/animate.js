@@ -9,9 +9,11 @@
 	var defaultIncrement = 1;
 	// stop flag
 	var stopFlag = false;
+	// Side Variations
+	var sideVariations = ['left','right','top','bottom'];
 	
 	// Comment below to run on all console logs
-	// console.log = function() {};
+	 console.log = function() {};
 
 
 	/**
@@ -325,7 +327,7 @@
 	 * side variations so that they will also play in animations.
 	 */
 	function expandAnimationsArray(){
-		var sideVariations = ['left','right','top','bottom'];
+		
 		var tempAnimatons = [];
 		var tempIndex = 0;
 		for(var i=0;i< animations.length; i++){			
@@ -571,6 +573,26 @@
 	function resetStop(){
 		stopFlag = false;
 		console.log("STOP FLAG RESET ------------ ! - " + stopFlag);
+	}
+	
+	function logRepoAttrs(){
+		var finalStr = "";
+		for(anim of animations_repo){
+			var animStr = anim.title+"\n";
+			var units = "";
+			for(change of anim.changes){
+				animStr = animStr + change.attr +", " ;
+				units = units + change.unit + ", ";
+				if(change.sideSpecific == true){					
+					for(side of sideVariations){
+						animStr = animStr + (change.attr+"-"+side)+", " ;
+					}
+				}
+				
+			}
+			finalStr = finalStr + animStr + "\n"+units+"\n\n";
+		}
+		console.log("Animations = \n"+ finalStr);
 	}
 	
 	function html_sidebar_link_div(indexOfLink, backColor,idOfLink, titleOfLink){
