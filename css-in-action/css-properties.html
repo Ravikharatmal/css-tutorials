@@ -102,112 +102,11 @@
 	 * Prepare animation steps repository.
 	 */
 	var animations_repo = [
-			/**
-			 * Single attribute value change
-			 */
-			{
-				divname : "seconddiv",
-				id : "padding",
-				title : "PADDING",
-				desc : "Try different variations and values of padding of second div.",
-				def : "Space between content and enclosing element boundary like div",
-				defaultDemo : "side-side",
-				suffix : "",
-				changes : [
-						{
-							type : "increment",
-							attr : "padding",
-							sideSpecific : true,
-							unit : "px",
-							min : 0,
-							max : 50
-						},
-						{
-							type : "increment",
-							attr : "padding",
-							// sideSpecific : true,
-							unit : "%",
-							min : 0,
-							max : 10,
-							animationSpeed : 200
-						},
-						{
-							type : "increment",
-							attr : "padding",
-							template : "${Number(val)+5}px ${Number(val)+35}px ${Number(val)+70}px ${Number(val)+95}px",
-							unit : "",
-							min : 0,
-							max : 10,
-							animationSpeed : 200
-						}, {
-							type : "increment",
-							attr : "padding",
-							values : [ 'inherit' ],
-							animationSpeed : 500,
-							additional : [ {
-								divname : "firstdiv",
-								css : [ {
-									attr : "padding",
-									val : "50px"
-								} ]
-							} ]
-						}, ]
-			},
-			{
-				divname : "seconddiv",
-				id : "margin",
-				title : "MARGIN",
-				desc : "Try different variations and values of margin of second div.",
-				def : "Space outside & around element like div",
-				defaultDemo : "side-side",
-				suffix : "",
-				changes : [
-						{
-							type : "increment",
-							attr : "margin",
-							sideSpecific : true,
-							unit : "px",
-							min : 0,
-							max : 50
-						},
-						{
-							type : "increment",
-							attr : "margin",
-							// sideSpecific : true,
-							unit : "%",
-							min : 0,
-							max : 10,
-							animationSpeed : 200
-						},
-						{
-							type : "increment",
-							attr : "margin",
-							template : "${Number(val)+5}px ${Number(val)+35}px ${Number(val)+70}px ${Number(val)+95}px",
-							unit : "",
-							min : 0,
-							max : 10,
-							animationSpeed : 400
-						},
-						{
-							type : "values",
-							attr : "margin",
-							values : [ 'auto', 'auto 0 0 0', '0 auto 0 0',
-									'0 0 auto 0', '0 0 0 auto' ],
-							animationSpeed : 200,
-							additional : [ {
-								divname : "seconddiv",
-								css : [ {
-									attr : "width",
-									val : "100px"
-								} ]
-							} ]
-						} ]
-			},
 			{
 				divname : "seconddiv",
 				id : "border",
 				title : "BORDER",
-				desc : "Try different values of border style of second div",
+				desc : "Styling boundary of element like div",
 				defaultDemo : "side-side",
 				suffix : "",
 				changes : [
@@ -285,9 +184,226 @@
 			},
 			{
 				divname : "seconddiv",
+				id : "padding",
+				title : "PADDING",
+				desc : "Space between content and enclosing element boundary like div",
+				defaultDemo : "side-side",
+				suffix : "",
+				changes : [
+						{
+							type : "increment",
+							attr : "padding",
+							sideSpecific : true,
+							unit : "px",
+							min : 0,
+							max : 50
+						},
+						{
+							type : "increment",
+							attr : "padding",
+							// sideSpecific : true,
+							unit : "%",
+							min : 0,
+							max : 10,
+							animationSpeed : 200
+						},
+						{
+							type : "increment",
+							attr : "padding",
+							template : "${Number(val)+5}px ${Number(val)+35}px ${Number(val)+70}px ${Number(val)+95}px",
+							unit : "",
+							min : 0,
+							max : 10,
+							animationSpeed : 200
+						}, {
+							type : "increment",
+							attr : "padding",
+							values : [ 'inherit' ],
+							animationSpeed : 500,
+							additional : [ {
+								divname : "firstdiv",
+								css : [ {
+									attr : "padding",
+									val : "50px"
+								} ]
+							} ]
+						}, ]
+			},
+			{
+				divname : "seconddiv",
+				id : "margin",
+				title : "MARGIN",
+				desc : "Space outside & around element like div",
+				defaultDemo : "side-side",
+				suffix : "",
+				changes : [
+						{
+							type : "increment",
+							attr : "margin",
+							sideSpecific : true,
+							unit : "px",
+							min : 0,
+							max : 50
+						},
+						{
+							type : "increment",
+							attr : "margin",
+							// sideSpecific : true,
+							unit : "%",
+							min : 0,
+							max : 10,
+							animationSpeed : 200
+						},
+						{
+							type : "increment",
+							attr : "margin",
+							template : "${Number(val)+5}px ${Number(val)+35}px ${Number(val)+70}px ${Number(val)+95}px",
+							unit : "",
+							min : 0,
+							max : 10,
+							animationSpeed : 400
+						},
+						{
+							type : "values",
+							attr : "margin",
+							values : [ 'auto', 'auto 0 0 0', '0 auto 0 0',
+									'0 0 auto 0', '0 0 0 auto' ],
+							animationSpeed : 200,
+							additional : [ {
+								divname : "seconddiv",
+								css : [ {
+									attr : "width",
+									val : "100px"
+								} ]
+							} ]
+						} ]
+			},
+			{
+				divname : "firstdiv",
+				id : "widthheight",
+				title : "WIDTH & HEIGHT",
+				desc : "Width & height of element like div",
+				defaultDemo : "side-side",
+				suffix : "",
+				changes : [ {
+					type : "increment",
+					attr : "height",
+					unit : "px",
+					min : 100,
+					max : 150
+				}, {
+					type : "increment",
+					attr : "height",
+					unit : "%",
+					min : 10,
+					max : 80,
+					animationSpeed : 500,
+					increment : 10
+				}, {
+					type : "increment",
+					attr : "width",
+					unit : "px",
+					min : 100,
+					max : 150,
+					additional : [ {
+						divname : "firstdiv",
+						css : [ {
+							attr : "height",
+							val : "30%"
+						} ]
+					}, {
+						divname : "seconddiv",
+						css : [ {
+							attr : "width",
+							val : "100px"
+						} ]
+					} ]
+				}, {
+					type : "increment",
+					attr : "width",
+					unit : "%",
+					min : 10,
+					max : 80,
+					animationSpeed : 500,
+					increment : 10,
+					additional : [ {
+						divname : "firstdiv",
+						css : [ {
+							attr : "height",
+							val : "30%"
+						} ]
+					}, {
+						divname : "seconddiv",
+						css : [ {
+							attr : "width",
+							val : "100px"
+						} ]
+					} ]
+				} ],
+
+			},
+			{
+				divname : "firstdiv",
+				id : "lengthunits",
+				title : "LENGTH UNITS",
+				desc : "Different units that can be used in properties like width, margin, padding etc.",
+				defaultDemo : "single",
+				suffix : "",
+				changes : [ {
+					type : "increment",
+					attr : "height",
+					unit : "cm",
+					min : 2,
+					max : 10,
+					animationSpeed : 800,
+				}, {
+					type : "increment",
+					attr : "height",
+					unit : "mm",
+					min : 20,
+					max : 100,
+					animationSpeed : 100,
+				}, {
+					type : "increment",
+					attr : "height",
+					unit : "in",
+					min : 1,
+					max : 5,
+					animationSpeed : 1000,
+				}, {
+					type : "increment",
+					attr : "height",
+					unit : "px",
+					min : 100,
+					max : 150
+				}, {
+					type : "increment",
+					attr : "height",
+					unit : "pt",
+					min : 100,
+					max : 150
+				}, {
+					type : "increment",
+					attr : "height",
+					unit : "pc",
+					min : 10,
+					max : 15,
+					animationSpeed : 1000,
+				}, {
+					type : "increment",
+					attr : "height",
+					unit : "%",
+					min : 10,
+					max : 80,
+					animationSpeed : 800,
+					increment : 10
+				} ],
+			},
+			{
+				divname : "seconddiv",
 				id : "outline",
 				title : "OUTLINE",
-				desc : "Try different values of outline of second div",
+				desc : "Line around element outside the border",
 				defaultDemo : "side-side",
 				suffix : "",
 				changes : [
@@ -369,74 +485,11 @@
 							} ]
 						} ]
 			},
-			/**
-			 * Div below div
-			 */
-			{
-				divname : "firstdiv",
-				id : "width",
-				title : "WIDTH",
-				desc : "Try different values of width of first div",
-				defaultDemo : "side-side",
-				suffix : "",
-				changes : [ {
-					type : "increment",
-					attr : "width",
-					unit : "px",
-					min : 100,
-					max : 120
-				}, {
-					type : "increment",
-					attr : "width",
-					unit : "%",
-					min : 10,
-					max : 80,
-					animationSpeed : 500,
-					increment : 10
-				} ],
-				additional : [ {
-					divname : "seconddiv",
-					css : [ {
-						attr : "width",
-						val : "100px"
-					} ]
-				} ]
-			},
-			{
-				divname : "firstdiv",
-				id : "height",
-				title : "HEIGHT",
-				desc : "Try different values of height of first div",
-				defaultDemo : "side-side",
-				suffix : "",
-				changes : [ {
-					type : "increment",
-					attr : "height",
-					unit : "px",
-					min : 100,
-					max : 150
-				}, {
-					type : "increment",
-					attr : "height",
-					unit : "%",
-					min : 10,
-					max : 80,
-					animationSpeed : 500,
-					increment : 10
-				} ],
-				additional : [ {
-					divname : "seconddiv",
-					css : [ {
-						attr : "width",
-						val : "100px"
-					} ]
-				} ]
-			},
 			{
 				divname : "firstdiv",
 				id : "background",
 				title : "BACKGROUND",
-				desc : "Try different background properties and values",
+				desc : "Styling background of element like div",
 				defaultDemo : "single",
 				suffix : "",
 				changes : [
@@ -630,36 +683,77 @@
 
 			},
 			{
-				divname : "firstdiv",
+				divname : "seconddiv",
 				id : "float",
 				title : "FLOAT",
-				desc : "Try different values of float of first div | Both div fixed width",
-				defaultDemo : "side-side",
+				desc : "Specify which side element should float or position",
+				defaultDemo : "three-side-side",
 				suffix : "",
 				changes : [ {
 					type : "values",
 					attr : "float",
-					values : [ 'left', 'right', 'none', 'inherit' ],
-				} ],
-				additional : [ {
-					divname : "firstdiv",
-					css : [ {
-						attr : "width",
-						val : "300px"
+					values : [ 'none', 'inherit', 'left', 'right' ],
+					animationSpeed : 200,
+					additional : [ {
+						divname : "firstdiv",
+						css : [ {
+							attr : "width",
+							val : "30%"
+						} ]
+					}, {
+						divname : "seconddiv",
+						css : [ {
+							attr : "width",
+							val : "40%"
+						} ]
+					}, {
+						divname : "thirddiv",
+						css : [ {
+							attr : "width",
+							val : "50%"
+						} ]
 					} ]
 				}, {
-					divname : "seconddiv",
-					css : [ {
-						attr : "width",
-						val : "100px"
+					type : "values",
+					attr : "float",
+					values : [ 'none', 'inherit', 'left', 'right' ],
+					animationSpeed : 200,
+					additional : [ {
+						divname : "firstdiv",
+						css : [ {
+							attr : "float",
+							val : "left"
+						}, {
+							attr : "width",
+							val : "35%"
+						}, {
+							attr : "padding-bottom",
+							val : "5%"
+						} ]
+					}, {
+						divname : "seconddiv",
+						css : [ {
+							attr : "width",
+							val : "30%"
+						} ]
+					}, {
+						divname : "thirddiv",
+						css : [ {
+							attr : "float",
+							val : "right"
+						}, {
+							attr : "width",
+							val : "30%"
+						} ]
 					} ]
-				} ]
+				} ],
+
 			},
 			{
 				divname : "seconddiv",
 				id : "position-relative",
 				title : "POSITION (relative)",
-				desc : "Relative position with different placing",
+				desc : "Position element like div relative to its normal position.",
 				defaultDemo : "side-side",
 				suffix : "",
 				changes : [ {
@@ -708,7 +802,7 @@
 				divname : "seconddiv",
 				id : "position-absolute",
 				title : "POSITION (absolute)",
-				desc : "Second div absolute & first div relative with different placements",
+				desc : "Position element like div in relation to enclosing element.",
 				defaultDemo : "side-side",
 				suffix : "",
 				changes : [ {
@@ -763,7 +857,7 @@
 				divname : "firstdiv",
 				id : "overflow",
 				title : "OVERFLOW",
-				desc : "Change overflow values of first div | Both div fixed width",
+				desc : "Controls how to show content that is too big to fit into an element like div.",
 				defaultDemo : "single",
 				suffix : "",
 				changes : [ {
@@ -792,11 +886,11 @@
 				} ]
 			},
 			{
-				divname : "seconddiv",
+				divname : "firstdiv",
 				id : "display",
 				title : "DISPLAY",
-				desc : "Change display values of second div | Both div fixed width",
-				defaultDemo : "side-side",
+				desc : "How element is displayed.",
+				defaultDemo : "single",
 				suffix : "",
 				changes : [ {
 					type : "values",
@@ -808,9 +902,6 @@
 					css : [ {
 						attr : "width",
 						val : "100px"
-					}, {
-						attr : "display",
-						val : "inline"
 					} ]
 				}, {
 					divname : "seconddiv",
@@ -832,23 +923,23 @@
 					attr : "z-index",
 					unit : "",
 					min : 0,
-					max : 8,
+					max : 9,
 					animationSpeed : 800
 				} ],
 				additional : [ {
 					divname : "firstdiv",
 					css : [ {
+						attr : "z-index",
+						val : "4"
+					}, {
 						attr : "position",
 						val : "absolute"
 					}, {
 						attr : "width",
-						val : "300px"
+						val : "20%"
 					}, {
 						attr : "background-color",
 						val : "lightblue"
-					}, {
-						attr : "z-index",
-						val : "2"
 					} ]
 				}, {
 					divname : "seconddiv",
@@ -857,7 +948,7 @@
 						val : "absolute"
 					}, {
 						attr : "width",
-						val : "300px"
+						val : "50%"
 					}, {
 						attr : "background-color",
 						val : "pink"
@@ -871,11 +962,14 @@
 				}, {
 					divname : "thirddiv",
 					css : [ {
+						attr : "z-index",
+						val : "7"
+					}, {
 						attr : "position",
 						val : "absolute"
 					}, {
 						attr : "width",
-						val : "300px"
+						val : "90%"
 					}, {
 						attr : "background-color",
 						val : "lightgreen"
@@ -885,9 +979,6 @@
 					}, {
 						attr : "left",
 						val : "25px"
-					}, {
-						attr : "z-index",
-						val : "5"
 					} ]
 				} ]
 			},
@@ -1200,15 +1291,15 @@
 
 	<p
 		id="popupmessagefirstdiv"
-		style="background-color: rgba(176,224,230, 0.8); color: rgba(139, 69, 19, 1); display: inline-block; padding: 4px; margin: 2px; border-radius: 8px; max-width: 200px; z-index: 100;"></p>
+		style="background-color: rgba(176, 224, 230, 0.8); color: rgba(139, 69, 19, 1); display: inline-block; padding: 4px; margin: 2px; border-radius: 8px; max-width: 200px; z-index: 100;"></p>
 
 	<p
 		id="popupmessageseconddiv"
-		style="background-color: rgba(255,192,203, 0.8); color: rgba(139, 69, 19, 1); display: inline-block; padding: 4px; margin: 2px; border-radius: 8px; max-width: 200px; z-index: 100;"></p>
+		style="background-color: rgba(255, 192, 203, 0.8); color: rgba(139, 69, 19, 1); display: inline-block; padding: 4px; margin: 2px; border-radius: 8px; max-width: 200px; z-index: 100;"></p>
 
 	<p
 		id="popupmessagethirddiv"
-		style="background-color: rgba(144,238,144, 0.8); color: rgba(139, 69, 19, 1); display: inline-block; padding: 4px; margin: 2px; border-radius: 8px; max-width: 200px; z-index: 100;"></p>
+		style="background-color: rgba(144, 238, 144, 0.8); color: rgba(139, 69, 19, 1); display: inline-block; padding: 4px; margin: 2px; border-radius: 8px; max-width: 200px; z-index: 100;"></p>
 
 
 	<div

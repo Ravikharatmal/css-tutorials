@@ -580,7 +580,7 @@
 	
 	function html_code_header(title,desc){
 		return `<font color='green'><br/><strong>CSS Property(s): </strong>${title}&emsp;
-				<br/><strong>In Action: </strong>${desc}</font><br/>`
+				<br/><strong>Description: </strong>${desc}</font><br/>`
 	}
 	
 	function html_demo_single_div(){
