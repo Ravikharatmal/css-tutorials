@@ -1,5 +1,5 @@
 	// Mills to wait between CSS value changes. Lower value means faster animation.
-	var animationSpeed = 50;
+	var animationSpeed = 100;
 	// Mills to wait betwen CSS values animation.
 	var animationSpeedForValues = 2000;
 	// Message dsiplay time in mills
